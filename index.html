@@ -1,39 +1,2544 @@
-const destinationNote = allSameDestination
-  ? `
-      Your destination indicates
-      your assigned table assignment.
-      All confirmed attendees listed above
-      will be seated at this table.
-    `
-  : `
-      Your destination indicates
-      your assigned table assignment.
-    `;
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>RSVP | Med & Jean</title>
 
 
-return `
+  <!-- Fonts -->
 
-  <div class="destinations-section">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&family=La+Belle+Aurore&display=swap"
+    rel="stylesheet"
+  >
 
-    <div class="destinations-heading">
 
-      Your Destination
+  <style>
+
+    :root {
+
+      --cream: #fbf7ef;
+      --paper: #fffdf8;
+
+      --ink: #4e4943;
+      --muted: #8c8278;
+
+      --yellow: #f5df91;
+      --blue: #b9d9e8;
+      --pink: #edc4ca;
+      --violet: #cbbfdf;
+      --orange: #f1c39b;
+
+      --brown: #756451;
+      --line: #ded5ca;
+
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      min-height: 100vh;
+
+      padding: 25px;
+
+      background:
+
+        radial-gradient(
+          circle at 10% 10%,
+          rgba(245,223,145,.35),
+          transparent 25%
+        ),
+
+        radial-gradient(
+          circle at 90% 20%,
+          rgba(185,217,232,.35),
+          transparent 25%
+        ),
+
+        radial-gradient(
+          circle at 15% 90%,
+          rgba(237,196,202,.30),
+          transparent 25%
+        ),
+
+        var(--cream);
+
+      color: var(--ink);
+
+      font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+      overflow-x: hidden;
+
+    }
+
+
+    /* =========================================
+       DECORATIVE FLIGHT PATHS
+    ========================================= */
+
+    .flight-path {
+
+      position: fixed;
+
+      width: 180px;
+
+      height: 100px;
+
+      border-top:
+        2px dashed
+        rgba(117,100,81,.25);
+
+      border-radius: 50%;
+
+      pointer-events: none;
+
+      z-index: 0;
+
+    }
+
+
+    .flight-path.one {
+
+      top: 8%;
+
+      left: -50px;
+
+      transform: rotate(15deg);
+
+    }
+
+
+    .flight-path.two {
+
+      bottom: 8%;
+
+      right: -60px;
+
+      transform: rotate(-15deg);
+
+    }
+
+
+    .plane {
+
+      position: fixed;
+
+      font-size: 22px;
+
+      z-index: 1;
+
+      opacity: .55;
+
+      pointer-events: none;
+
+    }
+
+
+    .plane.one {
+
+      top: 12%;
+
+      left: 12%;
+
+      transform: rotate(-15deg);
+
+    }
+
+
+    .plane.two {
+
+      bottom: 13%;
+
+      right: 12%;
+
+      transform: rotate(165deg);
+
+    }
+
+
+    /* =========================================
+       CONTAINER
+    ========================================= */
+
+    .container {
+
+      position: relative;
+
+      z-index: 2;
+
+      width: 100%;
+
+      max-width: 680px;
+
+      margin: 0 auto;
+
+    }
+
+
+    /* =========================================
+       PASSPORT
+    ========================================= */
+
+    .passport {
+
+      background: var(--paper);
+
+      border:
+        1px solid
+        rgba(117,100,81,.20);
+
+      border-radius: 8px;
+
+      padding: 18px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(90,70,50,.12);
+
+      position: relative;
+
+    }
+
+
+    .passport-inner {
+
+      border:
+        1px dashed
+        rgba(117,100,81,.35);
+
+      padding: 45px 30px;
+
+      position: relative;
+
+      overflow: hidden;
+
+    }
+
+
+    /* =========================================
+       DECORATIVE CORNERS
+    ========================================= */
+
+    .corner {
+
+      position: absolute;
+
+      width: 80px;
+
+      height: 80px;
+
+      border: 1px solid
+        rgba(117,100,81,.15);
+
+      border-radius: 50%;
+
+    }
+
+
+    .corner.top-left {
+
+      top: -45px;
+
+      left: -45px;
+
+      background: var(--yellow);
+
+      opacity: .35;
+
+    }
+
+
+    .corner.top-right {
+
+      top: -45px;
+
+      right: -45px;
+
+      background: var(--blue);
+
+      opacity: .35;
+
+    }
+
+
+    .corner.bottom-left {
+
+      bottom: -45px;
+
+      left: -45px;
+
+      background: var(--pink);
+
+      opacity: .35;
+
+    }
+
+
+    .corner.bottom-right {
+
+      bottom: -45px;
+
+      right: -45px;
+
+      background: var(--violet);
+
+      opacity: .35;
+
+    }
+
+
+    /* =========================================
+       HOMEPAGE
+    ========================================= */
+
+    .eyebrow {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 42px;
+
+      font-weight: 500;
+
+      line-height: 1.15;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+
+      color: var(--brown);
+
+      margin-bottom: 20px;
+
+    }
+
+
+    .journey {
+
+      text-align: center;
+
+      font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+      font-size: 17px;
+
+      line-height: 1.7;
+
+      color: var(--muted);
+
+      max-width: 520px;
+
+      margin: 0 auto;
+
+    }
+
+
+    /* =========================================
+       FLIGHT DIVIDER
+    ========================================= */
+
+    .route {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin: 30px 0;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+    }
+
+
+    .route-line {
+
+      flex: 1;
+
+      border-top:
+        1px dashed
+        var(--line);
+
+    }
+
+
+    /* =========================================
+       RSVP INSTRUCTION
+    ========================================= */
+
+    .instruction {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 26px;
+
+      margin-bottom: 8px;
+
+    }
+
+
+    .instruction-sub {
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+      margin-bottom: 22px;
+
+    }
+
+
+    /* =========================================
+       RSVP CODE INPUT
+    ========================================= */
+
+    .code-input {
+
+      width: 100%;
+
+      padding: 17px 15px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius: 4px;
+
+      background: #fffefa;
+
+      font-family:
+        "DM Sans",
+        sans-serif;
+
+      font-size: 19px;
+
+      text-align: center;
+
+      letter-spacing: 5px;
+
+      color: var(--ink);
+
+      outline: none;
+
+      text-transform: uppercase;
+
+    }
+
+
+    .code-input:focus {
+
+      border-color: var(--violet);
+
+      box-shadow:
+        0 0 0 4px
+        rgba(203,191,223,.20);
+
+    }
+
+
+    /* =========================================
+       BUTTON
+    ========================================= */
+
+    .main-button {
+
+      width: 100%;
+
+      margin-top: 13px;
+
+      padding: 16px;
+
+      border: none;
+
+      border-radius: 4px;
+
+      background: var(--brown);
+
+      color: white;
+
+      font-family:
+        "DM Sans",
+        sans-serif;
+
+      font-size: 13px;
+
+      letter-spacing: 1px;
+
+      cursor: pointer;
+
+      transition:
+        transform .2s,
+        background .2s;
+
+    }
+
+
+    .main-button:hover {
+
+      background: #625342;
+
+      transform: translateY(-1px);
+
+    }
+
+
+    .main-button:disabled {
+
+      opacity: .55;
+
+      cursor: not-allowed;
+
+      transform: none;
+
+    }
+
+
+    /* =========================================
+       INVITATION PAGE
+    ========================================= */
+
+    .invitation {
+
+      margin-top: 5px;
+
+    }
+
+
+    .destination-label {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 42px;
+
+      font-weight: 500;
+
+      letter-spacing: 1px;
+
+      color: var(--brown);
+
+      margin-bottom: 8px;
+
+    }
+
+
+    .destination {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 36px;
+
+      margin: 5px 0 25px;
+
+    }
+
+
+    .boarding-info {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 1px;
+
+      background: var(--line);
+
+      border: 1px solid var(--line);
+
+      margin-bottom: 25px;
+
+    }
+
+
+    .info-box {
+
+      background: var(--paper);
+
+      padding: 14px;
+
+    }
+
+
+    .info-label {
+
+      display: block;
+
+      font-size: 9px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+
+      margin-bottom: 5px;
+
+    }
+
+
+    .info-value {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 20px;
+
+    }
+
+
+    .group-name {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 30px;
+
+      margin: 20px 0 5px;
+
+    }
+
+
+    .seats {
+
+      text-align: center;
+
+      font-size: 12px;
+
+      color: var(--muted);
+
+      margin-bottom: 28px;
+
+    }
+
+
+    /* =========================================
+       GUEST RESPONSE
+    ========================================= */
+
+    .guest {
+
+      padding: 20px 5px;
+
+      border-top:
+        1px solid
+        #eee7df;
+
+    }
+
+
+    .guest-name {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 22px;
+
+      margin-bottom: 14px;
+
+    }
+
+
+    .choices {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+
+    }
+
+
+    .choice {
+
+      border:
+        1px solid
+        var(--line);
+
+      padding: 13px 8px;
+
+      text-align: center;
+
+      font-size: 11px;
+
+      letter-spacing: .5px;
+
+      cursor: pointer;
+
+      border-radius: 3px;
+
+      transition: all .2s;
+
+      background: #fffefa;
+
+    }
+
+
+    .choice:hover {
+
+      border-color: var(--brown);
+
+    }
+
+
+    .choice.selected.attending {
+
+      background: var(--blue);
+
+      border-color: var(--blue);
+
+      color: #405d68;
+
+    }
+
+
+    .choice.selected.declining {
+
+      background: var(--pink);
+
+      border-color: var(--pink);
+
+      color: #76565b;
+
+    }
+
+
+    /* =========================================
+       DESTINATION ASSIGNMENTS
+    ========================================= */
+
+    .destinations-section {
+
+      margin-top: 32px;
+
+      padding-top: 26px;
+
+      border-top:
+        1px solid
+        #eee7df;
+
+    }
+
+
+    .destinations-heading {
+
+      text-align: center;
+
+      font-size: 10px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+
+      margin-bottom: 22px;
+
+    }
+
+
+    .destination-group {
+
+      margin-bottom: 18px;
+
+      padding: 24px 15px;
+
+      border:
+        1px solid
+        rgba(117,100,81,.15);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(245,223,145,.12),
+          rgba(185,217,232,.12),
+          rgba(203,191,223,.10)
+        );
+
+      border-radius: 4px;
+
+      position: relative;
+
+    }
+
+
+    .destination-group:last-child {
+
+      margin-bottom: 0;
+
+    }
+
+
+    .destination-passengers {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      justify-content: center;
+
+      gap: 5px 16px;
+
+      margin-bottom: 15px;
+
+    }
+
+
+    .destination-passenger {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 20px;
+
+      color: var(--ink);
+
+      text-align: center;
+
+    }
+
+
+    .destination-name {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 42px;
+
+      font-weight: 600;
+
+      line-height: 1.05;
+
+      color: var(--brown);
+
+      margin-top: 2px;
+
+    }
+
+
+    .destination-note {
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.6;
+
+      margin-top: 18px;
+
+      font-style: italic;
+
+    }
+
+
+    /* =========================================
+       SUCCESS PAGE
+    ========================================= */
+
+    .success {
+
+      text-align: center;
+
+      padding: 35px 10px;
+
+    }
+
+
+    .success-icon {
+
+      width: 85px;
+
+      height: 85px;
+
+      border-radius: 50%;
+
+      margin: 0 auto 25px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      font-size: 28px;
+
+      background: var(--yellow);
+
+      transform: rotate(-5deg);
+
+    }
+
+
+    .success-title {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 36px;
+
+      margin-bottom: 10px;
+
+    }
+
+
+    .success-message {
+
+      color: var(--muted);
+
+      line-height: 1.8;
+
+      font-size: 14px;
+
+    }
+
+
+    .couple-signature {
+
+      font-family:
+        "La Belle Aurore",
+        cursive;
+
+      font-size: 28px;
+
+      margin-top: 25px;
+
+      color: var(--brown);
+
+    }
+
+
+    /* =========================================
+       ALREADY SUBMITTED
+    ========================================= */
+
+    .already {
+
+      text-align: center;
+
+      padding: 20px 5px;
+
+    }
+
+
+    .already-title {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 34px;
+
+      margin-bottom: 12px;
+
+    }
+
+
+    .summary {
+
+      margin-top: 25px;
+
+      border-top:
+        1px solid
+        var(--line);
+
+    }
+
+
+    .summary-row {
+
+      display: flex;
+
+      justify-content:
+        space-between;
+
+      gap: 10px;
+
+      padding: 13px 3px;
+
+      border-bottom:
+        1px solid
+        #eee7df;
+
+      font-size: 13px;
+
+    }
+
+
+    .attending {
+
+      color: #5f7867;
+
+    }
+
+
+    .declining {
+
+      color: #a16060;
+
+    }
+
+
+    /* =========================================
+       ERROR
+    ========================================= */
+
+    .error {
+
+      text-align: center;
+
+      color: #a16060;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+      margin-top: 15px;
+
+    }
+
+
+    /* =========================================
+       FOOTER
+    ========================================= */
+
+    .footer {
+
+      text-align: center;
+
+      margin-top: 18px;
+
+      color: var(--muted);
+
+      font-size: 10px;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+
+      line-height: 1.8;
+
+    }
+
+
+    .footer-hashtag {
+
+      display: block;
+
+      letter-spacing: 1.2px;
+
+      text-transform: none;
+
+      margin-top: 2px;
+
+    }
+
+
+    /* =========================================
+       MOBILE
+    ========================================= */
+
+    @media (max-width: 520px) {
+
+      body {
+
+        padding: 12px;
+
+      }
+
+
+      .passport {
+
+        padding: 10px;
+
+      }
+
+
+      .passport-inner {
+
+        padding: 35px 18px;
+
+      }
+
+
+      .eyebrow {
+
+        font-size: 34px;
+
+      }
+
+
+      .journey {
+
+        font-size: 17px;
+
+      }
+
+
+      .choices {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .boarding-info {
+
+        grid-template-columns:
+          1fr;
+
+      }
+
+
+      .destination-label {
+
+        font-size: 36px;
+
+      }
+
+
+      .destination {
+
+        font-size: 31px;
+
+      }
+
+
+      .destination-passengers {
+
+        gap: 4px 12px;
+
+      }
+
+
+      .destination-passenger {
+
+        font-size: 19px;
+
+      }
+
+
+      .destination-name {
+
+        font-size: 37px;
+
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- Decorative travel elements -->
+
+  <div class="flight-path one"></div>
+
+  <div class="flight-path two"></div>
+
+  <div class="plane one">✈</div>
+
+  <div class="plane two">✈</div>
+
+
+
+  <div class="container">
+
+
+    <div class="passport">
+
+
+      <div class="passport-inner">
+
+
+        <!-- Decorative pastel corners -->
+
+        <div class="corner top-left"></div>
+
+        <div class="corner top-right"></div>
+
+        <div class="corner bottom-left"></div>
+
+        <div class="corner bottom-right"></div>
+
+
+
+        <!-- =====================================
+             HOMEPAGE
+        ====================================== -->
+
+        <div id="welcome">
+
+
+          <div class="eyebrow">
+
+            WELCOME ABOARD
+
+          </div>
+
+
+          <div class="journey">
+
+            Every great journey is made more special
+            with the people we love along the way.
+            Come celebrate with us as we begin our
+            journey to forever.
+
+          </div>
+
+
+
+          <div class="route">
+
+            <span>✈</span>
+
+            <div class="route-line"></div>
+
+            <span>♡</span>
+
+            <div class="route-line"></div>
+
+            <span>✈</span>
+
+          </div>
+
+
+
+          <div class="instruction">
+
+            Your invitation awaits.
+
+          </div>
+
+
+          <div class="instruction-sub">
+
+            Enter your private RSVP code below.
+
+          </div>
+
+
+
+          <input
+
+            id="codeInput"
+
+            class="code-input"
+
+            type="text"
+
+            placeholder="RSVP CODE"
+
+            autocomplete="off"
+
+          >
+
+
+
+          <button
+
+            id="findButton"
+
+            class="main-button"
+
+            onclick="findInvitation()"
+
+          >
+
+            CHECK IN &nbsp; ✈
+
+          </button>
+
+
+
+          <div id="searchMessage"></div>
+
+
+        </div>
+
+
+
+        <!-- =====================================
+             RSVP RESULT
+        ====================================== -->
+
+        <div id="result"></div>
+
+
+      </div>
 
     </div>
 
 
-    ${groupsHTML}
 
+    <div class="footer">
 
-    <div class="destination-note">
+      <div>
 
-      ${destinationNote}
+        Med &amp; Jean • 02.12.27
+
+      </div>
+
+      <span class="footer-hashtag">
+
+        #oriJEANallyMEDforeachother
+
+      </span>
 
     </div>
 
 
   </div>
 
-`;
+
+
+<script>
+
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw7_rvyadRRuvjjylNuqP7VN4CMR1ml4c3HUYPoEWTysGKHWYgOaVbhxgnPhDmKfULO/exec";
+
+
+let currentCode = "";
+
+let currentInvitation = null;
+
+let responses = {};
+
+
+
+/* =========================================
+   FIND INVITATION
+========================================= */
+
+async function findInvitation() {
+
+
+  const input =
+
+    document
+      .getElementById("codeInput")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const message =
+
+    document
+      .getElementById("searchMessage");
+
+
+  const button =
+
+    document
+      .getElementById("findButton");
+
+
+  if (!input) {
+
+
+    message.innerHTML = `
+
+      <div class="error">
+
+        Please enter your RSVP code.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent = "CHECKING...";
+
+
+  message.innerHTML = "";
+
+
+  try {
+
+
+    const response =
+
+      await fetch(
+
+        API_URL,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "text/plain;charset=utf-8"
+
+          },
+
+          body: JSON.stringify({
+
+            action:
+              "findInvitation",
+
+            code:
+              input
+
+          })
+
+        }
+
+      );
+
+
+    const data =
+
+      await response.json();
+
+
+    if (!data.found) {
+
+
+      message.innerHTML = `
+
+        <div class="error">
+
+          We couldn't find that RSVP code.<br>
+
+          Please check your code and try again.
+
+        </div>
+
+      `;
+
+
+      return;
+
+    }
+
+
+    currentCode = input;
+
+    currentInvitation = data;
+
+
+    showInvitation(data);
+
+
+  }
+
+
+  catch (error) {
+
+
+    console.error(error);
+
+
+    message.innerHTML = `
+
+      <div class="error">
+
+        Something went wrong.<br>
+
+        Please try again.
+
+      </div>
+
+    `;
+
+  }
+
+
+  finally {
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "CHECK IN ✈";
+
+  }
+
+}
+
+
+
+/* =========================================
+   SHOW INVITATION
+========================================= */
+
+function showInvitation(data) {
+
+
+  document
+    .getElementById("welcome")
+    .style.display = "none";
+
+
+  const result =
+
+    document
+      .getElementById("result");
+
+
+  if (data.alreadySubmitted) {
+
+
+    showAlreadySubmitted(data);
+
+    return;
+
+  }
+
+
+  responses = {};
+
+
+  let guestHTML = "";
+
+
+  data.guests.forEach(
+
+    function(guest, index) {
+
+
+      responses[index] = null;
+
+
+      guestHTML += `
+
+        <div class="guest">
+
+
+          <div class="guest-name">
+
+            ${escapeHTML(guest.name)}
+
+          </div>
+
+
+          <div class="choices">
+
+
+            <div
+
+              class="choice"
+
+              id="attending-${index}"
+
+              onclick="chooseResponse(
+                ${index},
+                'Attending'
+              )"
+
+            >
+
+              🛫 &nbsp;
+              YES, I'M COMING
+
+            </div>
+
+
+            <div
+
+              class="choice"
+
+              id="declining-${index}"
+
+              onclick="chooseResponse(
+                ${index},
+                'Declining'
+              )"
+
+            >
+
+              🛬 &nbsp;
+              SORRY, I CAN'T MAKE IT
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      `;
+
+    }
+
+  );
+
+
+  const destinationHTML =
+    buildDestinationSection(
+      data.guests
+    );
+
+
+  result.innerHTML = `
+
+
+    <div class="invitation">
+
+
+      <div class="destination-label">
+
+        Your Destination
+
+      </div>
+
+
+      <div class="destination">
+
+        Tagaytay City
+
+      </div>
+
+
+      <div class="boarding-info">
+
+
+        <div class="info-box">
+
+
+          <span class="info-label">
+
+            Date
+
+          </span>
+
+
+          <span class="info-value">
+
+            12 Feb 2027
+
+          </span>
+
+
+        </div>
+
+
+        <div class="info-box">
+
+
+          <span class="info-label">
+
+            Seats Reserved
+
+          </span>
+
+
+          <span class="info-value">
+
+            ${data.guests.length}
+
+          </span>
+
+
+        </div>
+
+
+      </div>
+
+
+      <div class="group-name">
+
+        ${escapeHTML(data.groupName)}
+
+      </div>
+
+
+      <div class="seats">
+
+        Your invitation includes
+
+        <strong>
+
+          ${data.guests.length}
+
+          ${data.guests.length === 1
+            ? "guest"
+            : "guests"}
+
+        </strong>.
+
+      </div>
+
+
+      ${guestHTML}
+
+
+      ${destinationHTML}
+
+
+      <button
+
+        id="submitButton"
+
+        class="main-button"
+
+        onclick="submitRSVP()"
+
+      >
+
+        CHECK IN &nbsp; ✈
+
+      </button>
+
+
+      <button
+
+        class="main-button"
+
+        style="
+          background:transparent;
+          color:#756451;
+          border:1px solid #ded5ca;
+        "
+
+        onclick="startOver()"
+
+      >
+
+        ← BACK
+
+      </button>
+
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================
+   BUILD DESTINATION SECTION
+========================================= */
+
+function buildDestinationSection(guests) {
+
+
+  const destinationGroups = {};
+
+  let hasDestination = false;
+
+
+  guests.forEach(function(guest) {
+
+
+    const destination =
+      String(
+        guest.destination || ""
+      ).trim();
+
+
+    if (!destination) {
+
+      return;
+
+    }
+
+
+    hasDestination = true;
+
+
+    const key =
+      destination.toUpperCase();
+
+
+    if (!destinationGroups[key]) {
+
+      destinationGroups[key] = {
+
+        name: destination,
+
+        guests: []
+
+      };
+
+    }
+
+
+    destinationGroups[key]
+      .guests
+      .push(guest.name);
+
+  });
+
+
+  /*
+   * If no destinations have been
+   * assigned yet, show nothing.
+   */
+
+  if (!hasDestination) {
+
+    return "";
+
+  }
+
+
+  const destinationKeys =
+    Object.keys(destinationGroups);
+
+
+  const allSameDestination =
+    destinationKeys.length === 1;
+
+
+  let groupsHTML = "";
+
+
+  destinationKeys.forEach(function(key) {
+
+
+    const group =
+      destinationGroups[key];
+
+
+    let passengerHTML = "";
+
+
+    /*
+     * Only show guest names when
+     * there are multiple destinations.
+     */
+
+    if (!allSameDestination) {
+
+
+      group.guests.forEach(
+        function(name) {
+
+
+          passengerHTML += `
+
+            <div class="destination-passenger">
+
+              ${escapeHTML(name)}
+
+            </div>
+
+          `;
+
+        }
+
+      );
+
+    }
+
+
+    groupsHTML += `
+
+
+      <div class="destination-group">
+
+
+        ${
+          !allSameDestination
+            ? `
+              <div class="destination-passengers">
+
+                ${passengerHTML}
+
+              </div>
+            `
+            : ""
+        }
+
+
+        <div class="destination-name">
+
+          ${escapeHTML(group.name)}
+
+        </div>
+
+
+      </div>
+
+    `;
+
+  });
+
+
+  /*
+   * Use a slightly longer note when
+   * everyone in the invitation shares
+   * the same destination/table.
+   */
+
+  const destinationNote =
+
+    allSameDestination
+
+      ? `
+
+        Your destination indicates
+        your assigned table assignment.
+        All confirmed attendees listed above
+        will be seated at this table.
+
+      `
+
+      : `
+
+        Your destination indicates
+        your assigned table assignment.
+
+      `;
+
+
+  return `
+
+
+    <div class="destinations-section">
+
+
+      <div class="destinations-heading">
+
+        Your Destination
+
+      </div>
+
+
+      ${groupsHTML}
+
+
+      <div class="destination-note">
+
+        ${destinationNote}
+
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================
+   CHOOSE RESPONSE
+========================================= */
+
+function chooseResponse(index, response) {
+
+
+  responses[index] = response;
+
+
+  const attending =
+
+    document.getElementById(
+      `attending-${index}`
+    );
+
+
+  const declining =
+
+    document.getElementById(
+      `declining-${index}`
+    );
+
+
+  attending.classList.remove(
+    "selected",
+    "attending"
+  );
+
+
+  declining.classList.remove(
+    "selected",
+    "declining"
+  );
+
+
+  if (response === "Attending") {
+
+
+    attending.classList.add(
+      "selected",
+      "attending"
+    );
+
+  }
+
+
+  if (response === "Declining") {
+
+
+    declining.classList.add(
+      "selected",
+      "declining"
+    );
+
+  }
+
+}
+
+
+
+/* =========================================
+   SUBMIT RSVP
+========================================= */
+
+async function submitRSVP() {
+
+
+  const guests =
+    currentInvitation.guests;
+
+
+  for (
+
+    let i = 0;
+
+    i < guests.length;
+
+    i++
+
+  ) {
+
+
+    if (!responses[i]) {
+
+
+      alert(
+
+        `Please select a response for ${guests[i].name}.`
+
+      );
+
+
+      return;
+
+    }
+
+  }
+
+
+  const button =
+
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "CHECKING YOU IN...";
+
+
+  const responseData =
+
+    guests.map(
+
+      function(guest, index) {
+
+
+        return {
+
+          name:
+            guest.name,
+
+          response:
+            responses[index]
+
+        };
+
+
+      }
+
+    );
+
+
+  try {
+
+
+    const response =
+
+      await fetch(
+
+        API_URL,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "text/plain;charset=utf-8"
+
+          },
+
+          body: JSON.stringify({
+
+            action:
+              "submitRSVP",
+
+            code:
+              currentCode,
+
+            responses:
+              responseData
+
+          })
+
+        }
+
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+
+      alert(
+
+        data.error ||
+        "Something went wrong."
+
+      );
+
+
+      button.disabled = false;
+
+      button.textContent =
+        "CHECK IN ✈";
+
+
+      return;
+
+    }
+
+
+    showSuccess();
+
+
+  }
+
+
+  catch (error) {
+
+
+    console.error(error);
+
+
+    alert(
+
+      "We couldn't submit your RSVP. Please try again."
+
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "CHECK IN ✈";
+
+  }
+
+}
+
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+function showSuccess() {
+
+
+  document
+    .getElementById("result")
+    .innerHTML = `
+
+
+      <div class="success">
+
+
+        <div class="success-icon">
+
+          ✈
+
+        </div>
+
+
+        <div class="success-title">
+
+          Check-in Complete
+
+        </div>
+
+
+        <div class="success-message">
+
+
+          <strong>
+
+            Thank you for confirming!
+
+          </strong>
+
+
+          <br><br>
+
+
+          Your RSVP has been
+          successfully recorded.
+
+
+          <br><br>
+
+
+          We can't wait to celebrate
+          this special day with you. 🤍
+
+
+        </div>
+
+
+        <div class="couple-signature">
+
+          Med &amp; Jean
+
+        </div>
+
+
+        <div class="date-location">
+
+          02 • 12 • 27
+
+        </div>
+
+
+      </div>
+
+    `;
+
+}
+
+
+
+/* =========================================
+   ALREADY SUBMITTED
+========================================= */
+
+function showAlreadySubmitted(data) {
+
+
+  let summary = "";
+
+
+  data.guests.forEach(
+
+    function(guest) {
+
+
+      const status =
+
+        guest.status ||
+        "Submitted";
+
+
+      const className =
+
+        status === "Attending"
+
+          ? "attending"
+
+          : "declining";
+
+
+      summary += `
+
+
+        <div class="summary-row">
+
+
+          <span>
+
+            ${escapeHTML(
+              guest.name
+            )}
+
+          </span>
+
+
+          <strong
+            class="${className}"
+          >
+
+            ${escapeHTML(
+              status
+            )}
+
+          </strong>
+
+
+        </div>
+
+
+      `;
+
+    }
+
+  );
+
+
+  const destinationHTML =
+    buildDestinationSection(
+      data.guests
+    );
+
+
+  document
+    .getElementById("result")
+    .innerHTML = `
+
+
+      <div class="already">
+
+
+        <div class="success-icon">
+
+          ✓
+
+        </div>
+
+
+        <div class="already-title">
+
+          RSVP Already Confirmed
+
+        </div>
+
+
+        <p>
+
+          We've already received
+          your response.
+
+        </p>
+
+
+        <div class="summary">
+
+          ${summary}
+
+        </div>
+
+
+        ${destinationHTML}
+
+
+        <p
+          style="
+            color:#8c8278;
+            font-size:13px;
+            line-height:1.7;
+            margin-top:25px;
+          "
+        >
+
+          If you need to make a change,
+          please contact us.
+
+        </p>
+
+
+        <button
+
+          class="main-button"
+
+          style="
+            background:transparent;
+            color:#756451;
+            border:1px solid #ded5ca;
+          "
+
+          onclick="startOver()"
+
+        >
+
+          ← BACK
+
+        </button>
+
+
+      </div>
+
+    `;
+
+}
+
+
+
+/* =========================================
+   START OVER
+========================================= */
+
+function startOver() {
+
+
+  currentCode = "";
+
+  currentInvitation = null;
+
+  responses = {};
+
+
+  document
+    .getElementById("result")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("searchMessage")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("codeInput")
+    .value = "";
+
+
+  document
+    .getElementById("welcome")
+    .style.display =
+      "block";
+
+}
+
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value) {
+
+
+  return String(value)
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
 
 
