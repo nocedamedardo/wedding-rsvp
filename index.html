@@ -4,9 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Our Wedding RSVP</title>
+  <title>Wedding RSVP</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -17,132 +18,302 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding: 24px;
+
       font-family: Georgia, "Times New Roman", serif;
+
       background: #f8f4ef;
       color: #4a4038;
-      padding: 24px;
     }
+
 
     .container {
       width: 100%;
       max-width: 650px;
-      text-align: center;
+
       background: #fffdf9;
+
       padding: 60px 30px;
+
       border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(80, 60, 40, 0.10);
+
+      box-shadow:
+        0 10px 40px
+        rgba(80, 60, 40, 0.10);
+
+      text-align: center;
     }
+
 
     .small-text {
       font-family: Arial, sans-serif;
+
       font-size: 13px;
+
       letter-spacing: 3px;
+
       text-transform: uppercase;
+
       color: #9a8877;
+
       margin-bottom: 20px;
     }
 
+
     h1 {
       font-size: 42px;
+
       font-weight: normal;
+
       margin: 0 0 15px;
     }
 
+
+    h2 {
+      font-weight: normal;
+
+      font-size: 28px;
+
+      margin-bottom: 10px;
+    }
+
+
     .subtitle {
       font-size: 17px;
+
       line-height: 1.7;
+
       color: #75685e;
+
       margin-bottom: 35px;
     }
 
-    .search-box {
-      display: flex;
-      gap: 10px;
-      max-width: 500px;
-      margin: 0 auto;
-    }
 
     input {
-      flex: 1;
+      width: 100%;
+
       padding: 16px;
+
       border: 1px solid #d8cdc2;
+
       border-radius: 10px;
-      font-size: 16px;
+
+      font-size: 18px;
+
       outline: none;
+
       font-family: Arial, sans-serif;
+
+      text-align: center;
+
+      text-transform: uppercase;
     }
+
 
     input:focus {
       border-color: #a89582;
     }
 
+
     button {
+      width: 100%;
+
       border: none;
+
       background: #756451;
+
       color: white;
+
       padding: 16px 24px;
+
       border-radius: 10px;
+
       font-size: 15px;
+
       cursor: pointer;
+
       font-family: Arial, sans-serif;
+
+      margin-top: 12px;
     }
+
 
     button:hover {
       background: #5f5040;
     }
 
+
+    button:disabled {
+      background: #b7aea5;
+
+      cursor: not-allowed;
+    }
+
+
     #result {
       margin-top: 35px;
+
       text-align: left;
     }
 
+
     .family-card {
       border-top: 1px solid #e2d9d0;
+
       padding-top: 25px;
     }
 
+
     .family-name {
       text-align: center;
-      font-size: 24px;
-      margin-bottom: 20px;
+
+      font-size: 27px;
+
+      margin-bottom: 10px;
     }
+
+
+    .seats {
+      text-align: center;
+
+      color: #75685e;
+
+      font-size: 14px;
+
+      margin-bottom: 25px;
+    }
+
 
     .guest {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 5px;
+      padding: 18px 5px;
+
       border-bottom: 1px solid #eee7e0;
-      gap: 15px;
     }
+
 
     .guest-name {
-      font-size: 16px;
+      font-size: 17px;
+
+      margin-bottom: 12px;
     }
 
-    select {
-      padding: 9px;
+
+    .choices {
+      display: flex;
+
+      gap: 10px;
+    }
+
+
+    .choice {
+      flex: 1;
+
+      padding: 12px;
+
       border: 1px solid #d8cdc2;
-      border-radius: 8px;
-      background: white;
-    }
 
-    .submit-button {
-      width: 100%;
-      margin-top: 25px;
-    }
+      border-radius: 10px;
 
-    .message {
       text-align: center;
-      padding: 20px;
-      line-height: 1.7;
+
+      cursor: pointer;
+
+      font-family: Arial, sans-serif;
+
+      font-size: 14px;
+
+      color: #75685e;
+
+      background: #fff;
     }
+
+
+    .choice.selected {
+      background: #756451;
+
+      color: white;
+
+      border-color: #756451;
+    }
+
+
+    .success {
+      text-align: center;
+
+      line-height: 1.8;
+
+      padding: 15px;
+    }
+
+
+    .success h2 {
+      margin-top: 0;
+    }
+
 
     .error {
       color: #9b5757;
+
+      text-align: center;
+
+      line-height: 1.6;
     }
 
+
+    .already {
+      text-align: center;
+
+      line-height: 1.8;
+
+      padding: 15px;
+    }
+
+
+    .guest-summary {
+      border-bottom: 1px solid #eee7e0;
+
+      padding: 12px 0;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+
+    .attending {
+      color: #687b61;
+    }
+
+
+    .declining {
+      color: #9b5757;
+    }
+
+
+    .back-button {
+      background: transparent;
+
+      color: #756451;
+
+      border: 1px solid #d8cdc2;
+
+      margin-top: 10px;
+    }
+
+
+    .loading {
+      text-align: center;
+
+      color: #75685e;
+
+      padding: 20px;
+    }
+
+
     @media (max-width: 500px) {
+
       .container {
         padding: 45px 20px;
       }
@@ -151,217 +322,707 @@
         font-size: 34px;
       }
 
-      .search-box {
+      .choices {
         flex-direction: column;
       }
 
-      button {
-        width: 100%;
-      }
-
-      .guest {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      select {
-        width: 100%;
-      }
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <div class="container">
 
-    <div class="small-text">Together with their families</div>
+<div class="container">
+
+
+  <!-- =====================
+       WELCOME
+  ====================== -->
+
+  <div id="welcome">
+
+    <div class="small-text">
+      Together with their families
+    </div>
 
     <h1>You're Invited</h1>
 
     <div class="subtitle">
+
       We can't wait to celebrate with you.<br>
-      Please enter your name below to find your invitation.
+
+      Please enter the RSVP code from your invitation.
+
     </div>
 
-    <div class="search-box">
-      <input
-        type="text"
-        id="nameInput"
-        placeholder="Enter your name"
-        autocomplete="off"
-      >
 
-      <button onclick="findGuest()">Find My Invitation</button>
-    </div>
+    <input
+      type="text"
+      id="codeInput"
+      placeholder="Enter RSVP Code"
+      autocomplete="off"
+    >
 
-    <div id="result"></div>
+
+    <button
+      id="findButton"
+      onclick="findInvitation()"
+    >
+      Continue
+    </button>
+
+
+    <div id="searchMessage"></div>
 
   </div>
 
-  <script>
 
-    /*
-      TEMPORARY GUEST LIST
+  <!-- =====================
+       RSVP RESULT
+  ====================== -->
 
-      We'll replace this with your real guest database later.
-    */
-
-    const guestGroups = [
-      {
-        family: "Dela Cruz Family",
-        guests: [
-          "Juan Dela Cruz",
-          "Maria Dela Cruz",
-          "Pedro Dela Cruz"
-        ]
-      },
-      {
-        family: "Santos Family",
-        guests: [
-          "Carlo Santos",
-          "Anna Santos"
-        ]
-      }
-    ];
+  <div id="result"></div>
 
 
-    function findGuest() {
+</div>
 
-      const input = document
-        .getElementById("nameInput")
-        .value
-        .trim()
-        .toLowerCase();
 
-      const result = document.getElementById("result");
 
-      if (!input) {
-        result.innerHTML =
-          '<div class="message error">Please enter your name.</div>';
-        return;
-      }
+<script>
 
-      const group = guestGroups.find(group =>
-        group.guests.some(guest =>
-          guest.toLowerCase().includes(input)
-        )
+
+/*
+========================================
+YOUR GOOGLE APPS SCRIPT URL
+========================================
+*/
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw7_rvyadRRuvjjylNuqP7VN4CMR1ml4c3HUYPoEWTysGKHWYgOaVbhxgnPhDmKfULO/exec";
+
+
+let currentCode = "";
+
+let currentInvitation = null;
+
+let responses = {};
+
+
+
+/*
+========================================
+FIND INVITATION
+========================================
+*/
+
+async function findInvitation() {
+
+  const input =
+    document
+      .getElementById("codeInput")
+      .value
+      .trim()
+      .toUpperCase();
+
+
+  const message =
+    document
+      .getElementById("searchMessage");
+
+
+  const button =
+    document
+      .getElementById("findButton");
+
+
+  if (!input) {
+
+    message.innerHTML =
+      '<p class="error">Please enter your RSVP code.</p>';
+
+    return;
+
+  }
+
+
+  button.disabled = true;
+
+  button.textContent = "Checking...";
+
+  message.innerHTML = "";
+
+
+  try {
+
+    const response =
+      await fetch(API_URL, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action: "findInvitation",
+
+          code: input
+
+        })
+
+      });
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.found) {
+
+      message.innerHTML = `
+        <p class="error">
+          We couldn't find that RSVP code.<br>
+          Please check your code and try again.
+        </p>
+      `;
+
+      return;
+
+    }
+
+
+    currentCode = input;
+
+    currentInvitation = data;
+
+
+    showInvitation(data);
+
+
+  }
+
+
+  catch (error) {
+
+    console.error(error);
+
+    message.innerHTML = `
+      <p class="error">
+        Something went wrong while checking your code.<br>
+        Please try again.
+      </p>
+    `;
+
+  }
+
+
+  finally {
+
+    button.disabled = false;
+
+    button.textContent = "Continue";
+
+  }
+
+}
+
+
+
+/*
+========================================
+SHOW INVITATION
+========================================
+*/
+
+function showInvitation(data) {
+
+  document
+    .getElementById("welcome")
+    .style.display = "none";
+
+
+  const result =
+    document.getElementById("result");
+
+
+  /*
+   * Already submitted
+   */
+
+  if (data.alreadySubmitted) {
+
+    showAlreadySubmitted(data);
+
+    return;
+
+  }
+
+
+  responses = {};
+
+
+  let guestHTML = "";
+
+
+  data.guests.forEach(function(guest, index) {
+
+    responses[index] = null;
+
+
+    guestHTML += `
+
+      <div class="guest">
+
+        <div class="guest-name">
+          ${escapeHTML(guest.name)}
+        </div>
+
+
+        <div class="choices">
+
+
+          <div
+            class="choice"
+            id="attending-${index}"
+            onclick="chooseResponse(${index}, 'Attending')"
+          >
+            Joyfully accepts
+          </div>
+
+
+          <div
+            class="choice"
+            id="declining-${index}"
+            onclick="chooseResponse(${index}, 'Declining')"
+          >
+            Regretfully declines
+          </div>
+
+
+        </div>
+
+      </div>
+
+    `;
+
+  });
+
+
+  result.innerHTML = `
+
+    <div class="family-card">
+
+
+      <div class="family-name">
+
+        ${escapeHTML(data.groupName)}
+
+      </div>
+
+
+      <div class="seats">
+
+        We have reserved
+        ${data.guests.length}
+        ${data.guests.length === 1 ? "seat" : "seats"}
+        for you.
+
+      </div>
+
+
+      ${guestHTML}
+
+
+      <button
+        id="submitButton"
+        onclick="submitRSVP()"
+      >
+        Confirm RSVP
+      </button>
+
+
+      <button
+        class="back-button"
+        onclick="startOver()"
+      >
+        ← Back
+      </button>
+
+
+    </div>
+
+  `;
+
+}
+
+
+
+/*
+========================================
+SELECT ATTENDING / DECLINING
+========================================
+*/
+
+function chooseResponse(index, response) {
+
+  responses[index] = response;
+
+
+  const attending =
+    document.getElementById(
+      `attending-${index}`
+    );
+
+
+  const declining =
+    document.getElementById(
+      `declining-${index}`
+    );
+
+
+  attending.classList.remove("selected");
+
+  declining.classList.remove("selected");
+
+
+  if (response === "Attending") {
+
+    attending.classList.add("selected");
+
+  }
+
+
+  if (response === "Declining") {
+
+    declining.classList.add("selected");
+
+  }
+
+}
+
+
+
+/*
+========================================
+SUBMIT RSVP
+========================================
+*/
+
+async function submitRSVP() {
+
+  const guests =
+    currentInvitation.guests;
+
+
+  /*
+   * Make sure everyone has an answer.
+   */
+
+  for (
+    let i = 0;
+    i < guests.length;
+    i++
+  ) {
+
+    if (!responses[i]) {
+
+      alert(
+        `Please select a response for ${guests[i].name}.`
       );
 
-      if (!group) {
+      return;
 
-        result.innerHTML = `
-          <div class="message error">
-            We couldn't find your name.<br>
-            Please check the spelling and try again.
-          </div>
-        `;
+    }
 
-        return;
-      }
+  }
 
 
-      let guestsHTML = "";
+  const button =
+    document.getElementById(
+      "submitButton"
+    );
 
-      group.guests.forEach((guest, index) => {
 
-        guestsHTML += `
-          <div class="guest">
+  button.disabled = true;
 
-            <div class="guest-name">
-              ${guest}
-            </div>
+  button.textContent =
+    "Submitting...";
 
-            <select id="guest-${index}">
-              <option value="">Please select</option>
-              <option value="attending">Joyfully accepts</option>
-              <option value="declining">Regretfully declines</option>
-            </select>
 
-          </div>
-        `;
+  const responseData =
+    guests.map(function(guest, index) {
+
+      return {
+
+        name: guest.name,
+
+        response: responses[index]
+
+      };
+
+    });
+
+
+  try {
+
+    const response =
+      await fetch(API_URL, {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify({
+
+          action: "submitRSVP",
+
+          code: currentCode,
+
+          responses: responseData
+
+        })
 
       });
 
 
-      result.innerHTML = `
+    const data =
+      await response.json();
 
-        <div class="family-card">
 
-          <div class="family-name">
-            ${group.family}
-          </div>
+    if (!data.success) {
 
-          ${guestsHTML}
+      alert(
+        data.error ||
+        "Something went wrong."
+      );
 
-          <button
-            class="submit-button"
-            onclick="submitRSVP()"
-          >
-            Confirm RSVP
-          </button>
+      button.disabled = false;
 
-        </div>
+      button.textContent =
+        "Confirm RSVP";
 
-      `;
-
-      window.currentGroup = group;
+      return;
 
     }
 
 
-    function submitRSVP() {
+    showSuccess();
 
-      const group = window.currentGroup;
+  }
 
-      if (!group) return;
 
-      const responses = [];
+  catch (error) {
 
-      group.guests.forEach((guest, index) => {
+    console.error(error);
 
-        const answer =
-          document.getElementById(`guest-${index}`).value;
+    alert(
+      "We couldn't submit your RSVP. Please try again."
+    );
 
-        if (!answer) {
-          alert(`Please select a response for ${guest}.`);
-          return;
-        }
 
-        responses.push({
-          name: guest,
-          response: answer
-        });
+    button.disabled = false;
 
-      });
+    button.textContent =
+      "Confirm RSVP";
 
-      if (responses.length !== group.guests.length) {
-        return;
-      }
+  }
 
-      document.getElementById("result").innerHTML = `
+}
 
-        <div class="message">
 
-          <h2>Thank You! 🤍</h2>
 
-          <p>
-            Your RSVP has been received.
-          </p>
+/*
+========================================
+SUCCESS
+========================================
+*/
 
-          <p>
-            We can't wait to celebrate with you!
-          </p>
+function showSuccess() {
 
-        </div>
+  document
+    .getElementById("result")
+    .innerHTML = `
 
-      `;
+      <div class="success">
 
-      console.log(responses);
+        <h2>
+          Thank You! 🤍
+        </h2>
 
-    }
 
-  </script>
+        <p>
+          Your RSVP has been received.
+        </p>
+
+
+        <p>
+          We can't wait to celebrate
+          with you!
+        </p>
+
+      </div>
+
+    `;
+
+}
+
+
+
+/*
+========================================
+ALREADY SUBMITTED
+========================================
+*/
+
+function showAlreadySubmitted(data) {
+
+  let summary = "";
+
+
+  data.guests.forEach(function(guest) {
+
+    const status =
+      guest.status ||
+      "Already submitted";
+
+
+    const className =
+      status === "Attending"
+        ? "attending"
+        : "declining";
+
+
+    summary += `
+
+      <div class="guest-summary">
+
+        <span>
+          ${escapeHTML(guest.name)}
+        </span>
+
+        <strong class="${className}">
+          ${escapeHTML(status)}
+        </strong>
+
+      </div>
+
+    `;
+
+  });
+
+
+  document
+    .getElementById("result")
+    .innerHTML = `
+
+      <div class="already">
+
+        <h2>
+          Welcome Back 🤍
+        </h2>
+
+
+        <p>
+          Your RSVP for
+          <strong>
+            ${escapeHTML(data.groupName)}
+          </strong>
+          has already been received.
+        </p>
+
+
+        ${summary}
+
+
+        <p>
+          If you need to make a change,
+          please contact us.
+        </p>
+
+
+        <button
+          class="back-button"
+          onclick="startOver()"
+        >
+          ← Back
+        </button>
+
+      </div>
+
+    `;
+
+}
+
+
+
+/*
+========================================
+START OVER
+========================================
+*/
+
+function startOver() {
+
+  currentCode = "";
+
+  currentInvitation = null;
+
+  responses = {};
+
+
+  document
+    .getElementById("result")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("searchMessage")
+    .innerHTML = "";
+
+
+  document
+    .getElementById("codeInput")
+    .value = "";
+
+
+  document
+    .getElementById("welcome")
+    .style.display = "block";
+
+}
+
+
+
+/*
+========================================
+SECURITY / DISPLAY HELPER
+========================================
+*/
+
+function escapeHTML(value) {
+
+  return String(value)
+
+    .replace(/&/g, "&amp;")
+
+    .replace(/</g, "&lt;")
+
+    .replace(/>/g, "&gt;")
+
+    .replace(/"/g, "&quot;")
+
+    .replace(/'/g, "&#039;");
+
+}
+
+
+</script>
 
 </body>
 </html>
