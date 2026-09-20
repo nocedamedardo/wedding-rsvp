@@ -752,6 +752,160 @@
 
 
     /* =========================================
+       DESTINATION ASSIGNMENTS
+    ========================================= */
+
+    .destinations-section {
+
+      margin-top: 32px;
+
+      padding-top: 26px;
+
+      border-top:
+        1px solid
+        #eee7df;
+
+    }
+
+
+    .destinations-heading {
+
+      text-align: center;
+
+      font-size: 10px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+
+      margin-bottom: 22px;
+
+    }
+
+
+    .destination-group {
+
+      margin-bottom: 24px;
+
+      padding: 20px 15px;
+
+      border:
+        1px solid
+        rgba(117,100,81,.15);
+
+      background:
+
+        linear-gradient(
+          135deg,
+          rgba(245,223,145,.12),
+          rgba(185,217,232,.12),
+          rgba(203,191,223,.10)
+        );
+
+      border-radius: 4px;
+
+      position: relative;
+
+    }
+
+
+    .destination-group:last-child {
+
+      margin-bottom: 0;
+
+    }
+
+
+    .destination-passengers {
+
+      display: flex;
+
+      flex-wrap: wrap;
+
+      justify-content: center;
+
+      gap: 5px 16px;
+
+      margin-bottom: 18px;
+
+    }
+
+
+    .destination-passenger {
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 20px;
+
+      color: var(--ink);
+
+      text-align: center;
+
+    }
+
+
+    .destination-caption {
+
+      text-align: center;
+
+      font-size: 9px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      color: var(--muted);
+
+      margin-bottom: 2px;
+
+    }
+
+
+    .destination-name {
+
+      text-align: center;
+
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+      font-size: 34px;
+
+      font-weight: 600;
+
+      line-height: 1.1;
+
+      color: var(--brown);
+
+      margin-top: 2px;
+
+    }
+
+
+    .destination-note {
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 11px;
+
+      line-height: 1.6;
+
+      margin-top: 18px;
+
+      font-style: italic;
+
+    }
+
+
+    /* =========================================
        SUCCESS PAGE
     ========================================= */
 
@@ -1020,12 +1174,31 @@
       }
 
 
+      .destination-passengers {
+
+        gap: 4px 12px;
+
+      }
+
+
+      .destination-passenger {
+
+        font-size: 19px;
+
+      }
+
+
+      .destination-name {
+
+        font-size: 31px;
+
+      }
+
     }
 
   </style>
 
 </head>
-
 
 
 <body>
@@ -1365,6 +1538,10 @@ async function findInvitation() {
 
 
 
+/* =========================================
+   SHOW INVITATION
+========================================= */
+
 function showInvitation(data) {
 
 
@@ -1467,6 +1644,12 @@ function showInvitation(data) {
   );
 
 
+  const destinationHTML =
+    buildDestinationSection(
+      data.guests
+    );
+
+
   result.innerHTML = `
 
 
@@ -1560,6 +1743,9 @@ function showInvitation(data) {
       ${guestHTML}
 
 
+      ${destinationHTML}
+
+
       <button
 
         id="submitButton"
@@ -1601,6 +1787,174 @@ function showInvitation(data) {
 }
 
 
+
+/* =========================================
+   BUILD DESTINATION SECTION
+========================================= */
+
+function buildDestinationSection(guests) {
+
+
+  const destinationGroups = {};
+
+  let hasDestination = false;
+
+
+  guests.forEach(function(guest) {
+
+
+    const destination =
+      String(
+        guest.destination || ""
+      ).trim();
+
+
+    if (!destination) {
+      return;
+    }
+
+
+    hasDestination = true;
+
+
+    const key =
+      destination.toUpperCase();
+
+
+    if (!destinationGroups[key]) {
+
+      destinationGroups[key] = {
+
+        name: destination,
+
+        guests: []
+
+      };
+
+    }
+
+
+    destinationGroups[key]
+      .guests
+      .push(guest.name);
+
+  });
+
+
+  /*
+   * If no destinations have been
+   * assigned yet, show nothing.
+   */
+
+  if (!hasDestination) {
+
+    return "";
+
+  }
+
+
+  let groupsHTML = "";
+
+
+  Object.keys(destinationGroups)
+    .forEach(function(key) {
+
+
+      const group =
+        destinationGroups[key];
+
+
+      let passengerHTML = "";
+
+
+      group.guests.forEach(
+        function(name) {
+
+
+          passengerHTML += `
+
+            <div class="destination-passenger">
+
+              ${escapeHTML(name)}
+
+            </div>
+
+          `;
+
+        }
+
+      );
+
+
+      groupsHTML += `
+
+
+        <div class="destination-group">
+
+
+          <div class="destination-passengers">
+
+            ${passengerHTML}
+
+          </div>
+
+
+          <div class="destination-caption">
+
+            Destination
+
+          </div>
+
+
+          <div class="destination-name">
+
+            ${escapeHTML(group.name)}
+
+          </div>
+
+
+        </div>
+
+      `;
+
+    });
+
+
+  return `
+
+
+    <div class="destinations-section">
+
+
+      <div class="destinations-heading">
+
+        Your Destination
+
+      </div>
+
+
+      ${groupsHTML}
+
+
+      <div class="destination-note">
+
+        Your destination indicates
+        your assigned table assignment.
+
+      </div>
+
+
+    </div>
+
+  `;
+
+}
+
+
+
+/* =========================================
+   CHOOSE RESPONSE
+========================================= */
 
 function chooseResponse(index, response) {
 
@@ -1658,6 +2012,10 @@ function chooseResponse(index, response) {
 }
 
 
+
+/* =========================================
+   SUBMIT RSVP
+========================================= */
 
 async function submitRSVP() {
 
@@ -1824,6 +2182,10 @@ async function submitRSVP() {
 
 
 
+/* =========================================
+   SUCCESS
+========================================= */
+
 function showSuccess() {
 
 
@@ -1898,6 +2260,10 @@ function showSuccess() {
 
 
 
+/* =========================================
+   ALREADY SUBMITTED
+========================================= */
+
 function showAlreadySubmitted(data) {
 
 
@@ -1960,6 +2326,17 @@ function showAlreadySubmitted(data) {
   );
 
 
+  /*
+   * Also show destinations on the
+   * already-submitted page.
+   */
+
+  const destinationHTML =
+    buildDestinationSection(
+      data.guests
+    );
+
+
   document
     .getElementById("result")
     .innerHTML = `
@@ -1995,6 +2372,9 @@ function showAlreadySubmitted(data) {
           ${summary}
 
         </div>
+
+
+        ${destinationHTML}
 
 
         <p
@@ -2039,6 +2419,10 @@ function showAlreadySubmitted(data) {
 
 
 
+/* =========================================
+   START OVER
+========================================= */
+
 function startOver() {
 
 
@@ -2072,6 +2456,10 @@ function startOver() {
 }
 
 
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
 
 function escapeHTML(value) {
 
@@ -2112,5 +2500,6 @@ function escapeHTML(value) {
 </body>
 
 </html>
+
 
 
