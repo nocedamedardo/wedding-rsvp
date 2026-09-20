@@ -770,6 +770,76 @@
 
 
     /* =========================================
+       INDIVIDUAL RSVP ALREADY CONFIRMED
+    ========================================= */
+
+    .guest-confirmed {
+
+      padding: 13px;
+
+      border:
+        1px solid
+        var(--line);
+
+      border-radius: 3px;
+
+      background: #fffefa;
+
+      text-align: center;
+
+      font-size: 11px;
+
+      letter-spacing: .5px;
+
+      color: var(--muted);
+
+      line-height: 1.7;
+    }
+
+
+    .guest-confirmed.attending-status {
+
+      background:
+        rgba(185,217,232,.16);
+
+      border-color:
+        rgba(185,217,232,.65);
+
+    }
+
+
+    .guest-confirmed.declining-status {
+
+      background:
+        rgba(237,196,202,.16);
+
+      border-color:
+        rgba(237,196,202,.65);
+
+    }
+
+
+    .guest-confirmed .status {
+
+      font-weight: 600;
+
+      letter-spacing: .8px;
+    }
+
+
+    .guest-confirmed.attending-status .status {
+
+      color: #5f7867;
+    }
+
+
+    .guest-confirmed.declining-status .status {
+
+      color: #a16060;
+    }
+
+
+    /* =========================================
        DESTINATION ASSIGNMENTS
     ========================================= */
 
@@ -1357,28 +1427,37 @@ let currentInvitation = null;
 let responses = {};
 
 
+
 /* =========================================
    FIND INVITATION
 ========================================= */
 
 async function findInvitation() {
 
+
   const input =
+
     document
       .getElementById("codeInput")
       .value
       .trim()
       .toUpperCase();
 
+
   const message =
+
     document
       .getElementById("searchMessage");
 
+
   const button =
+
     document
       .getElementById("findButton");
 
+
   if (!input) {
+
 
     message.innerHTML = `
 
@@ -1394,23 +1473,33 @@ async function findInvitation() {
 
   }
 
+
   button.disabled = true;
 
   button.textContent = "CHECKING...";
 
+
   message.innerHTML = "";
+
 
   try {
 
+
     const response =
+
       await fetch(
+
         API_URL,
+
         {
+
           method: "POST",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body: JSON.stringify({
@@ -1424,12 +1513,17 @@ async function findInvitation() {
           })
 
         }
+
       );
 
+
     const data =
+
       await response.json();
 
+
     if (!data.found) {
+
 
       message.innerHTML = `
 
@@ -1443,21 +1537,28 @@ async function findInvitation() {
 
       `;
 
+
       return;
 
     }
+
 
     currentCode = input;
 
     currentInvitation = data;
 
+
     showInvitation(data);
+
 
   }
 
+
   catch (error) {
 
+
     console.error(error);
+
 
     message.innerHTML = `
 
@@ -1473,7 +1574,9 @@ async function findInvitation() {
 
   }
 
+
   finally {
+
 
     button.disabled = false;
 
@@ -1485,48 +1588,145 @@ async function findInvitation() {
 }
 
 
+
 /* =========================================
    SHOW INVITATION
 ========================================= */
 
 function showInvitation(data) {
 
+
   document
     .getElementById("welcome")
     .style.display = "none";
 
+
   const result =
+
     document
       .getElementById("result");
 
+
   /*
-   * IMPORTANT:
-   *
-   * We do NOT automatically treat the whole
-   * group as submitted anymore.
-   *
-   * Each guest can be selected individually.
+   * Only show the old "fully submitted"
+   * page when EVERY guest has already
+   * RSVP'd.
    */
+
+  if (data.alreadySubmitted) {
+
+
+    showAlreadySubmitted(data);
+
+    return;
+
+  }
+
 
   responses = {};
 
+
   let guestHTML = "";
 
+
   data.guests.forEach(
+
     function(guest, index) {
 
-      const alreadySubmitted =
-        guest.status === "Attending" ||
-        guest.status === "Declining";
 
-      responses[index] =
-        alreadySubmitted
-          ? "ALREADY_SUBMITTED"
-          : null;
+      responses[index] = null;
+
+
+      /*
+       * =====================================
+       * GUEST ALREADY RSVP'D
+       * =====================================
+       */
+
+      if (guest.submitted) {
+
+
+        const status =
+
+          String(
+            guest.status || ""
+          ).trim();
+
+
+        const isAttending =
+          status === "Attending";
+
+
+        const statusClass =
+          isAttending
+            ? "attending-status"
+            : "declining-status";
+
+
+        const statusText =
+          isAttending
+            ? "✓ ATTENDING"
+            : "✓ NOT ATTENDING";
+
+
+        guestHTML += `
+
+          <div class="guest">
+
+
+            <div class="guest-name">
+
+              ${escapeHTML(guest.name)}
+
+            </div>
+
+
+            <div
+              class="
+                guest-confirmed
+                ${statusClass}
+              "
+            >
+
+              <span class="status">
+
+                ${statusText}
+
+              </span>
+
+
+              <br>
+
+
+              <span>
+
+                RSVP already confirmed
+
+              </span>
+
+            </div>
+
+
+          </div>
+
+        `;
+
+
+        return;
+
+      }
+
+
+      /*
+       * =====================================
+       * GUEST HAS NOT RSVP'D YET
+       * =====================================
+       */
 
       guestHTML += `
 
         <div class="guest">
+
 
           <div class="guest-name">
 
@@ -1534,83 +1734,61 @@ function showInvitation(data) {
 
           </div>
 
-          ${
-            alreadySubmitted
 
-              ? `
-
-                <div
-                  style="
-                    color:#8c8278;
-                    font-size:12px;
-                    line-height:1.6;
-                  "
-                >
-
-                  RSVP already received:
-                  <strong>
-                    ${escapeHTML(guest.status)}
-                  </strong>
-
-                </div>
-
-              `
-
-              : `
-
-                <div class="choices">
-
-                  <div
-
-                    class="choice"
-
-                    id="attending-${index}"
-
-                    onclick="chooseResponse(
-                      ${index},
-                      'Attending'
-                    )"
-
-                  >
-
-                    🛫 &nbsp;
-                    YES, I'M COMING
-
-                  </div>
+          <div class="choices">
 
 
-                  <div
+            <div
 
-                    class="choice"
+              class="choice"
 
-                    id="declining-${index}"
+              id="attending-${index}"
 
-                    onclick="chooseResponse(
-                      ${index},
-                      'Declining'
-                    )"
+              onclick="chooseResponse(
+                ${index},
+                'Attending'
+              )"
 
-                  >
+            >
 
-                    🛬 &nbsp;
-                    SORRY, I CAN'T MAKE IT
+              🛫 &nbsp;
+              YES, I'M COMING
 
-                  </div>
+            </div>
 
-                </div>
 
-              `
-          }
+            <div
+
+              class="choice"
+
+              id="declining-${index}"
+
+              onclick="chooseResponse(
+                ${index},
+                'Declining'
+              )"
+
+            >
+
+              🛬 &nbsp;
+              SORRY, I CAN'T MAKE IT
+
+            </div>
+
+
+          </div>
 
         </div>
 
       `;
 
     }
+
   );
 
 
   result.innerHTML = `
+
 
     <div class="invitation">
 
@@ -1638,16 +1816,17 @@ function showInvitation(data) {
         "
       >
 
-        You can RSVP just for yourself,
-        or confirm everyone listed below.
-        Please make sure your response is
-        accurate before submitting.
+        To keep things simple, you can confirm
+        the attendance of the family members
+        listed below all at once. Please make
+        sure that everyone listed will be joining
+        us before submitting your RSVP.
 
         <br><br>
 
-        If you notice anything incorrect in
-        the list or have any questions,
-        please don't hesitate to contact us.
+        If you notice anything incorrect in the
+        list or have any questions, please don't
+        hesitate to contact us.
 
       </div>
 
@@ -1696,31 +1875,41 @@ function showInvitation(data) {
 }
 
 
+
 /* =========================================
    BUILD DESTINATION SECTION
 ========================================= */
 
 function buildDestinationSection(guests) {
 
+
   const destinationGroups = {};
 
   let hasDestination = false;
 
+
   guests.forEach(function(guest) {
+
 
     const destination =
       String(
         guest.destination || ""
       ).trim();
 
+
     if (!destination) {
+
       return;
+
     }
+
 
     hasDestination = true;
 
+
     const key =
       destination.toUpperCase();
+
 
     if (!destinationGroups[key]) {
 
@@ -1734,6 +1923,7 @@ function buildDestinationSection(guests) {
 
     }
 
+
     destinationGroups[key]
       .guests
       .push(guest.name);
@@ -1742,31 +1932,39 @@ function buildDestinationSection(guests) {
 
 
   if (!hasDestination) {
+
     return "";
+
   }
 
 
   const destinationKeys =
     Object.keys(destinationGroups);
 
+
   const allSameDestination =
     destinationKeys.length === 1;
+
 
   let groupsHTML = "";
 
 
   destinationKeys.forEach(function(key) {
 
+
     const group =
       destinationGroups[key];
+
 
     let passengerHTML = "";
 
 
     if (!allSameDestination) {
 
+
       group.guests.forEach(
         function(name) {
+
 
           passengerHTML += `
 
@@ -1779,6 +1977,7 @@ function buildDestinationSection(guests) {
           `;
 
         }
+
       );
 
     }
@@ -1786,7 +1985,9 @@ function buildDestinationSection(guests) {
 
     groupsHTML += `
 
+
       <div class="destination-group">
+
 
         ${
           !allSameDestination
@@ -1806,6 +2007,7 @@ function buildDestinationSection(guests) {
           ${escapeHTML(group.name)}
 
         </div>
+
 
       </div>
 
@@ -1837,7 +2039,9 @@ function buildDestinationSection(guests) {
 
   return `
 
+
     <div class="destinations-section">
+
 
       <div class="destinations-heading">
 
@@ -1863,20 +2067,24 @@ function buildDestinationSection(guests) {
 }
 
 
+
 /* =========================================
    CHOOSE RESPONSE
 ========================================= */
 
 function chooseResponse(index, response) {
 
+
   /*
-   * Do not allow an already-submitted guest
-   * to be changed from this page.
+   * Safety check:
+   * already-submitted guests cannot
+   * be changed from the website.
    */
 
   if (
-    responses[index] ===
-    "ALREADY_SUBMITTED"
+    currentInvitation &&
+    currentInvitation.guests[index] &&
+    currentInvitation.guests[index].submitted
   ) {
 
     return;
@@ -1888,15 +2096,24 @@ function chooseResponse(index, response) {
 
 
   const attending =
+
     document.getElementById(
       `attending-${index}`
     );
 
 
   const declining =
+
     document.getElementById(
       `declining-${index}`
     );
+
+
+  if (!attending || !declining) {
+
+    return;
+
+  }
 
 
   attending.classList.remove(
@@ -1913,6 +2130,7 @@ function chooseResponse(index, response) {
 
   if (response === "Attending") {
 
+
     attending.classList.add(
       "selected",
       "attending"
@@ -1922,6 +2140,7 @@ function chooseResponse(index, response) {
 
 
   if (response === "Declining") {
+
 
     declining.classList.add(
       "selected",
@@ -1933,38 +2152,42 @@ function chooseResponse(index, response) {
 }
 
 
+
 /* =========================================
    SUBMIT RSVP
 ========================================= */
 
 async function submitRSVP() {
 
+
   const guests =
     currentInvitation.guests;
 
 
+  let hasNewResponse = false;
+
+
   /*
-   * Only send guests who have actually
-   * been selected.
+   * Only require responses from guests
+   * who have NOT already submitted.
    */
 
-  const selectedResponses = [];
-
-
   for (
+
     let i = 0;
+
     i < guests.length;
+
     i++
+
   ) {
 
+
     /*
-     * Skip guests who already submitted.
+     * Skip guests who already RSVP'd.
      */
 
-    if (
-      responses[i] ===
-      "ALREADY_SUBMITTED"
-    ) {
+    if (guests[i].submitted) {
 
       continue;
 
@@ -1972,41 +2195,39 @@ async function submitRSVP() {
 
 
     /*
-     * Unselected guests are allowed.
-     * This lets someone RSVP only
-     * for themselves.
+     * New/unsubmitted guests must
+     * select a response.
      */
 
-    if (
-      responses[i] === "Attending" ||
-      responses[i] === "Declining"
-    ) {
+    if (!responses[i]) {
 
-      selectedResponses.push({
 
-        name:
-          guests[i].name,
+      alert(
 
-        response:
-          responses[i]
+        `Please select a response for ${guests[i].name}.`
 
-      });
+      );
+
+
+      return;
 
     }
+
+
+    hasNewResponse = true;
 
   }
 
 
   /*
-   * At least one guest must be selected.
+   * Safety check in case everyone
+   * has already submitted.
    */
 
-  if (
-    selectedResponses.length === 0
-  ) {
+  if (!hasNewResponse) {
 
     alert(
-      "Please select at least one guest to RSVP for."
+      "All guests in this invitation have already submitted their RSVP."
     );
 
     return;
@@ -2015,6 +2236,7 @@ async function submitRSVP() {
 
 
   const button =
+
     document.getElementById(
       "submitButton"
     );
@@ -2026,9 +2248,58 @@ async function submitRSVP() {
     "CHECKING YOU IN...";
 
 
+  /*
+   * Only send NEW responses.
+   * Already-submitted guests are excluded.
+   */
+
+  const responseData =
+
+    guests
+
+      .map(
+
+        function(guest, index) {
+
+
+          if (guest.submitted) {
+
+            return null;
+
+          }
+
+
+          return {
+
+            name:
+              guest.name,
+
+            response:
+              responses[index]
+
+          };
+
+
+        }
+
+      )
+
+      .filter(
+
+        function(response) {
+
+          return response !== null;
+
+        }
+
+      );
+
+
   try {
 
+
     const response =
+
       await fetch(
 
         API_URL,
@@ -2053,7 +2324,7 @@ async function submitRSVP() {
               currentCode,
 
             responses:
-              selectedResponses
+              responseData
 
           })
 
@@ -2068,15 +2339,20 @@ async function submitRSVP() {
 
     if (!data.success) {
 
+
       alert(
+
         data.error ||
         "Something went wrong."
+
       );
+
 
       button.disabled = false;
 
       button.textContent =
         "CHECK IN ✈";
+
 
       return;
 
@@ -2085,16 +2361,22 @@ async function submitRSVP() {
 
     showSuccess();
 
+
   }
 
 
   catch (error) {
 
+
     console.error(error);
 
+
     alert(
+
       "We couldn't submit your RSVP. Please try again."
+
     );
+
 
     button.disabled = false;
 
@@ -2106,15 +2388,18 @@ async function submitRSVP() {
 }
 
 
+
 /* =========================================
    SUCCESS
 ========================================= */
 
 function showSuccess() {
 
+
   document
     .getElementById("result")
     .innerHTML = `
+
 
       <div class="success">
 
@@ -2198,32 +2483,42 @@ function showSuccess() {
 }
 
 
+
 /* =========================================
    ALREADY SUBMITTED
 ========================================= */
 
 function showAlreadySubmitted(data) {
 
+
   let summary = "";
 
 
   data.guests.forEach(
+
     function(guest) {
 
+
       const status =
+
         guest.status ||
         "Submitted";
 
 
       const className =
+
         status === "Attending"
+
           ? "attending"
+
           : "declining";
 
 
       summary += `
 
+
         <div class="summary-row">
+
 
           <span>
 
@@ -2244,11 +2539,14 @@ function showAlreadySubmitted(data) {
 
           </strong>
 
+
         </div>
+
 
       `;
 
     }
+
   );
 
 
@@ -2261,6 +2559,7 @@ function showAlreadySubmitted(data) {
   document
     .getElementById("result")
     .innerHTML = `
+
 
       <div class="already">
 
@@ -2355,11 +2654,13 @@ function showAlreadySubmitted(data) {
 }
 
 
+
 /* =========================================
    START OVER
 ========================================= */
 
 function startOver() {
+
 
   currentCode = "";
 
@@ -2391,11 +2692,13 @@ function startOver() {
 }
 
 
+
 /* =========================================
    ESCAPE HTML
 ========================================= */
 
 function escapeHTML(value) {
+
 
   return String(value)
 
@@ -2433,3 +2736,4 @@ function escapeHTML(value) {
 </body>
 
 </html>
+
