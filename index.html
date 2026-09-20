@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Our Wedding RSVP</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Georgia, "Times New Roman", serif;
+      background: #f8f4ef;
+      color: #4a4038;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+      text-align: center;
+      background: #fffdf9;
+      padding: 60px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(80, 60, 40, 0.10);
+    }
+
+    .small-text {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #9a8877;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: normal;
+      margin: 0 0 15px;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      line-height: 1.7;
+      color: #75685e;
+      margin-bottom: 35px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    input {
+      flex: 1;
+      padding: 16px;
+      border: 1px solid #d8cdc2;
+      border-radius: 10px;
+      font-size: 16px;
+      outline: none;
+      font-family: Arial, sans-serif;
+    }
+
+    input:focus {
+      border-color: #a89582;
+    }
+
+    button {
+      border: none;
+      background: #756451;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: Arial, sans-serif;
+    }
+
+    button:hover {
+      background: #5f5040;
+    }
+
+    #result {
+      margin-top: 35px;
+      text-align: left;
+    }
+
+    .family-card {
+      border-top: 1px solid #e2d9d0;
+      padding-top: 25px;
+    }
+
+    .family-name {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .guest {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5px;
+      border-bottom: 1px solid #eee7e0;
+      gap: 15px;
+    }
+
+    .guest-name {
+      font-size: 16px;
+    }
+
+    select {
+      padding: 9px;
+      border: 1px solid #d8cdc2;
+      border-radius: 8px;
+      background: white;
+    }
+
+    .submit-button {
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    .message {
+      text-align: center;
+      padding: 20px;
+      line-height: 1.7;
+    }
+
+    .error {
+      color: #9b5757;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 45px 20px;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+
+      .guest {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="small-text">Together with their families</div>
+
+    <h1>You're Invited</h1>
+
+    <div class="subtitle">
+      We can't wait to celebrate with you.<br>
+      Please enter your name below to find your invitation.
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="nameInput"
+        placeholder="Enter your name"
+        autocomplete="off"
+      >
+
+      <button onclick="findGuest()">Find My Invitation</button>
+    </div>
+
+    <div id="result"></div>
+
+  </div>
+
+  <script>
+
+    /*
+      TEMPORARY GUEST LIST
+
+      We'll replace this with your real guest database later.
+    */
+
+    const guestGroups = [
+      {
+        family: "Dela Cruz Family",
+        guests: [
+          "Juan Dela Cruz",
+          "Maria Dela Cruz",
+          "Pedro Dela Cruz"
+        ]
+      },
+      {
+        family: "Santos Family",
+        guests: [
+          "Carlo Santos",
+          "Anna Santos"
+        ]
+      }
+    ];
+
+
+    function findGuest() {
+
+      const input = document
+        .getElementById("nameInput")
+        .value
+        .trim()
+        .toLowerCase();
+
+      const result = document.getElementById("result");
+
+      if (!input) {
+        result.innerHTML =
+          '<div class="message error">Please enter your name.</div>';
+        return;
+      }
+
+      const group = guestGroups.find(group =>
+        group.guests.some(guest =>
+          guest.toLowerCase().includes(input)
+        )
+      );
+
+      if (!group) {
+
+        result.innerHTML = `
+          <div class="message error">
+            We couldn't find your name.<br>
+            Please check the spelling and try again.
+          </div>
+        `;
+
+        return;
+      }
+
+
+      let guestsHTML = "";
+
+      group.guests.forEach((guest, index) => {
+
+        guestsHTML += `
+          <div class="guest">
+
+            <div class="guest-name">
+              ${guest}
+            </div>
+
+            <select id="guest-${index}">
+              <option value="">Please select</option>
+              <option value="attending">Joyfully accepts</option>
+              <option value="declining">Regretfully declines</option>
+            </select>
+
+          </div>
+        `;
+
+      });
+
+
+      result.innerHTML = `
+
+        <div class="family-card">
+
+          <div class="family-name">
+            ${group.family}
+          </div>
+
+          ${guestsHTML}
+
+          <button
+            class="submit-button"
+            onclick="submitRSVP()"
+          >
+            Confirm RSVP
+          </button>
+
+        </div>
+
+      `;
+
+      window.currentGroup = group;
+
+    }
+
+
+    function submitRSVP() {
+
+      const group = window.currentGroup;
+
+      if (!group) return;
+
+      const responses = [];
+
+      group.guests.forEach((guest, index) => {
+
+        const answer =
+          document.getElementById(`guest-${index}`).value;
+
+        if (!answer) {
+          alert(`Please select a response for ${guest}.`);
+          return;
+        }
+
+        responses.push({
+          name: guest,
+          response: answer
+        });
+
+      });
+
+      if (responses.length !== group.guests.length) {
+        return;
+      }
+
+      document.getElementById("result").innerHTML = `
+
+        <div class="message">
+
+          <h2>Thank You! 🤍</h2>
+
+          <p>
+            Your RSVP has been received.
+          </p>
+
+          <p>
+            We can't wait to celebrate with you!
+          </p>
+
+        </div>
+
+      `;
+
+      console.log(responses);
+
+    }
+
+  </script>
+
+</body>
+</html>
