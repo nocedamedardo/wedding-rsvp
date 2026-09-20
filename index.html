@@ -31,7 +31,6 @@
   --blue:#b9d9e8;
   --pink:#edc4ca;
   --violet:#cbbfdf;
-  --orange:#f1c39b;
 
   --brown:#756451;
   --line:#ded5ca;
@@ -657,38 +656,151 @@ body {
 
 
 /* =========================================
-   DESTINATIONS
+   COMPLETED RSVP / DESTINATIONS
 ========================================= */
 
-.destinations-section {
+.completed-message {
 
-  margin-top:32px;
+  text-align:center;
 
-  padding-top:26px;
+  color:var(--muted);
 
-  border-top:
-    1px solid
-    #eee7df;
+  font-size:13px;
+
+  line-height:1.7;
+
+  max-width:500px;
+
+  margin:0 auto 28px;
 
 }
 
 
-.destinations-heading {
+.completed-title {
 
-  text-align:center;
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size:31px;
+
+  color:var(--ink);
+
+  margin-bottom:10px;
+
+}
+
+
+.completed-guest {
+
+  margin-bottom:18px;
+
+  padding:22px 14px;
+
+  border:
+    1px solid
+    rgba(117,100,81,.15);
+
+  background:
+
+    linear-gradient(
+      135deg,
+      rgba(245,223,145,.12),
+      rgba(185,217,232,.12),
+      rgba(203,191,223,.10)
+    );
+
+  border-radius:4px;
+
+}
+
+
+.completed-guest-name {
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size:22px;
+
+  margin-bottom:5px;
+
+}
+
+
+.completed-status {
 
   font-size:10px;
 
-  letter-spacing:3px;
+  letter-spacing:1.5px;
+
+  text-transform:uppercase;
+
+  color:#6d8674;
+
+  margin-bottom:14px;
+
+}
+
+
+.completed-destination-label {
+
+  font-size:9px;
+
+  letter-spacing:2.5px;
 
   text-transform:uppercase;
 
   color:var(--muted);
 
-  margin-bottom:22px;
+  margin-bottom:3px;
 
 }
 
+
+.completed-destination {
+
+  font-family:
+    "Cormorant Garamond",
+    Georgia,
+    serif;
+
+  font-size:40px;
+
+  font-weight:600;
+
+  line-height:1.05;
+
+  color:var(--brown);
+
+}
+
+
+.completed-note {
+
+  text-align:center;
+
+  color:var(--muted);
+
+  font-size:11px;
+
+  line-height:1.7;
+
+  font-style:italic;
+
+  margin:
+    25px auto 0;
+
+  max-width:470px;
+
+}
+
+
+/* =========================================
+   DESTINATION GROUP
+========================================= */
 
 .destination-group {
 
@@ -762,8 +874,6 @@ body {
 
   color:var(--brown);
 
-  margin-top:2px;
-
 }
 
 
@@ -780,164 +890,6 @@ body {
   margin-top:18px;
 
   font-style:italic;
-
-}
-
-
-/* =========================================
-   SUCCESS
-========================================= */
-
-.success {
-
-  text-align:center;
-
-  padding:35px 10px;
-
-}
-
-
-.success-icon {
-
-  width:85px;
-
-  height:85px;
-
-  border-radius:50%;
-
-  margin:0 auto 25px;
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  font-size:28px;
-
-  background:var(--yellow);
-
-  transform:rotate(-5deg);
-
-}
-
-
-.success-title {
-
-  font-family:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
-
-  font-size:36px;
-
-  margin-bottom:10px;
-
-}
-
-
-.success-message {
-
-  color:var(--muted);
-
-  line-height:1.8;
-
-  font-size:14px;
-
-}
-
-
-.couple-signature {
-
-  font-family:
-    "La Belle Aurore",
-    cursive;
-
-  font-size:28px;
-
-  margin-top:25px;
-
-  color:var(--brown);
-
-}
-
-
-.date-location {
-
-  color:var(--muted);
-
-  margin-top:5px;
-
-}
-
-
-/* =========================================
-   ALREADY SUBMITTED
-========================================= */
-
-.already {
-
-  text-align:center;
-
-  padding:20px 5px;
-
-}
-
-
-.already-title {
-
-  font-family:
-    "Cormorant Garamond",
-    Georgia,
-    serif;
-
-  font-size:34px;
-
-  margin-bottom:12px;
-
-}
-
-
-.summary {
-
-  margin-top:25px;
-
-  border-top:
-    1px solid
-    var(--line);
-
-}
-
-
-.summary-row {
-
-  display:flex;
-
-  justify-content:space-between;
-
-  gap:10px;
-
-  padding:13px 3px;
-
-  border-bottom:
-    1px solid
-    #eee7df;
-
-  font-size:13px;
-
-}
-
-
-.attending {
-
-  color:#5f7867;
-
-}
-
-
-.declining {
-
-  color:#a16060;
 
 }
 
@@ -1043,18 +995,13 @@ body {
   }
 
 
-  .destination-passengers {
-    gap:4px 12px;
+  .completed-destination {
+    font-size:36px;
   }
 
 
   .destination-passenger {
     font-size:19px;
-  }
-
-
-  .destination-name {
-    font-size:37px;
   }
 
 }
@@ -1412,6 +1359,60 @@ document
 responses = {};
 
 
+/*
+ * Check whether EVERY guest has
+ * already submitted an RSVP.
+ */
+
+const allCompleted =
+
+data.guests.length > 0 &&
+
+data.guests.every(
+function(guest) {
+
+return (
+guest.status === "Attending" ||
+guest.status === "Declining"
+);
+
+}
+);
+
+
+/*
+ * If everyone is completed,
+ * show the final destination page.
+ */
+
+if (allCompleted) {
+
+showCompletedInvitation(data);
+
+return;
+
+}
+
+
+/*
+ * Otherwise show the normal RSVP
+ * page for guests who still need
+ * to respond.
+ */
+
+showPendingInvitation(data);
+
+}
+
+
+
+/* =========================================
+   PENDING RSVP PAGE
+========================================= */
+
+function showPendingInvitation(data) {
+
+
 let guestHTML = "";
 
 
@@ -1421,9 +1422,8 @@ function(guest,index) {
 
 
 /*
- * If this guest has already RSVP'd,
- * show their existing status instead
- * of asking them again.
+ * Guests who already responded
+ * are displayed as completed.
  */
 
 if (
@@ -1549,7 +1549,9 @@ SORRY, I CAN'T MAKE IT
 );
 
 
-result.innerHTML = `
+document
+.getElementById("result")
+.innerHTML = `
 
 <div class="invitation">
 
@@ -1609,6 +1611,235 @@ onclick="submitRSVP()"
 CHECK IN &nbsp; ✈
 
 </button>
+
+
+<button
+
+class="main-button"
+
+style="
+background:transparent;
+color:#756451;
+border:1px solid #ded5ca;
+"
+
+onclick="startOver()"
+
+>
+
+← BACK
+
+</button>
+
+
+</div>
+
+`;
+
+}
+
+
+
+/* =========================================
+   COMPLETED RSVP PAGE
+========================================= */
+
+function showCompletedInvitation(data) {
+
+
+let destinationHTML = "";
+
+
+/*
+ * Show each guest separately because
+ * guests in the same group can have
+ * different destinations.
+ */
+
+data.guests.forEach(
+
+function(guest) {
+
+
+const statusClass =
+guest.status === "Attending"
+? "attending"
+: "declining";
+
+
+/*
+ * If someone is declining, they can
+ * still be shown as confirmed but their
+ * destination is not useful as a seat.
+ */
+
+if (
+guest.status === "Declining"
+) {
+
+
+destinationHTML += `
+
+<div class="completed-guest">
+
+<div class="completed-guest-name">
+
+${escapeHTML(guest.name)}
+
+</div>
+
+
+<div class="completed-status">
+
+RSVP CONFIRMED • NOT ATTENDING
+
+</div>
+
+
+<div
+style="
+font-size:12px;
+color:#8c8278;
+"
+>
+
+We’ll miss you and hope to celebrate
+with you another time. 🤍
+
+</div>
+
+</div>
+
+`;
+
+
+return;
+
+}
+
+
+/*
+ * Attending guest.
+ */
+
+destinationHTML += `
+
+<div class="completed-guest">
+
+<div class="completed-guest-name">
+
+${escapeHTML(guest.name)}
+
+</div>
+
+
+<div class="completed-status">
+
+RSVP CONFIRMED • ATTENDING
+
+</div>
+
+
+<div class="completed-destination-label">
+
+YOUR DESTINATION
+
+</div>
+
+
+<div class="completed-destination">
+
+${
+guest.destination
+? escapeHTML(guest.destination)
+: "Assigned on the day"
+}
+
+</div>
+
+</div>
+
+`;
+
+}
+
+);
+
+
+document
+.getElementById("result")
+.innerHTML = `
+
+<div class="invitation">
+
+
+<div class="destination-label">
+
+YOUR DESTINATION
+
+</div>
+
+
+<div class="destination">
+
+Med &amp; Jean Wedding
+
+</div>
+
+
+<div class="completed-title">
+
+You're all checked in!
+
+</div>
+
+
+<div class="completed-message">
+
+Thank you for confirming your RSVP.
+Your responses have been recorded.
+
+<br><br>
+
+Below are the assigned tables for
+everyone in your invitation.
+
+</div>
+
+
+${destinationHTML}
+
+
+<div class="completed-note">
+
+Your assigned destination is your table assignment
+for the celebration. If there are any changes to your
+RSVP, or if anything looks incorrect, please contact us.
+
+</div>
+
+
+<a
+
+href="${WEDDING_WEBSITE}"
+
+target="_blank"
+
+rel="noopener noreferrer"
+
+class="main-button"
+
+style="
+display:block;
+text-decoration:none;
+margin-top:28px;
+"
+
+>
+
+GO BACK TO OUR WEDDING WEBSITE
+
+</a>
 
 
 <button
@@ -1719,12 +1950,8 @@ currentInvitation.guests;
 
 
 /*
- * IMPORTANT:
- *
  * Only guests who actually selected
  * a response are included.
- *
- * This allows partial RSVP.
  */
 
 const responseData =
@@ -1760,10 +1987,6 @@ return response !== null;
 
 });
 
-
-/*
- * At least one guest must be selected.
- */
 
 if (responseData.length === 0) {
 
@@ -1854,7 +2077,94 @@ return;
 }
 
 
-showSuccess();
+/*
+ * Important:
+ *
+ * Fetch the invitation again after
+ * submitting so the page immediately
+ * knows which guests are now complete.
+ */
+
+const refreshedResponse =
+
+await fetch(
+
+API_URL,
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":
+"text/plain;charset=utf-8"
+
+},
+
+body:JSON.stringify({
+
+action:"findInvitation",
+
+code:currentCode
+
+})
+
+}
+
+);
+
+
+const refreshedData =
+await refreshedResponse.json();
+
+
+if (
+refreshedData.success &&
+refreshedData.found
+) {
+
+
+currentInvitation =
+refreshedData;
+
+
+/*
+ * If everyone is now complete,
+ * immediately show their destinations.
+ */
+
+if (
+refreshedData.guests.length > 0 &&
+refreshedData.guests.every(
+function(guest) {
+
+return (
+guest.status === "Attending" ||
+guest.status === "Declining"
+);
+
+}
+)
+) {
+
+showCompletedInvitation(
+refreshedData
+);
+
+return;
+
+}
+
+}
+
+
+/*
+ * Otherwise show the regular
+ * success message for a partial RSVP.
+ */
+
+showPartialSuccess();
 
 
 }
@@ -1885,10 +2195,10 @@ button.textContent =
 
 
 /* =========================================
-   SUCCESS
+   PARTIAL RSVP SUCCESS
 ========================================= */
 
-function showSuccess() {
+function showPartialSuccess() {
 
 
 document
@@ -1927,8 +2237,10 @@ successfully recorded.
 
 <br><br>
 
-We can't wait to celebrate
-this special day with you. 🤍
+If other guests in your invitation
+have not yet responded, they can
+return using the same RSVP code
+to confirm later.
 
 </div>
 
@@ -1965,9 +2277,28 @@ margin-top:28px;
 
 >
 
-← GO BACK TO OUR WEDDING WEBSITE
+GO BACK TO OUR WEDDING WEBSITE
 
 </a>
+
+
+<button
+
+class="main-button"
+
+style="
+background:transparent;
+color:#756451;
+border:1px solid #ded5ca;
+"
+
+onclick="startOver()"
+
+>
+
+← BACK
+
+</button>
 
 
 </div>
