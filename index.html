@@ -1645,12 +1645,6 @@ function showInvitation(data) {
   );
 
 
-  const destinationHTML =
-    buildDestinationSection(
-      data.guests
-    );
-
-
   result.innerHTML = `
 
 
@@ -1659,92 +1653,34 @@ function showInvitation(data) {
 
       <div class="destination-label">
 
-        Your Destination
+        Med &amp; Jean Wedding
 
       </div>
 
 
-      <div class="destination">
+      <div
+        class="journey"
+        style="
+          margin-bottom: 28px;
+        "
+      >
 
-        Tagaytay City
+        To keep things simple, you can confirm
+        the attendance of the family members
+        listed below all at once. Please make
+        sure that everyone listed will be joining
+        us before submitting your RSVP.
 
-      </div>
+        <br><br>
 
-
-      <div class="boarding-info">
-
-
-        <div class="info-box">
-
-
-          <span class="info-label">
-
-            Date
-
-          </span>
-
-
-          <span class="info-value">
-
-            12 Feb 2027
-
-          </span>
-
-
-        </div>
-
-
-        <div class="info-box">
-
-
-          <span class="info-label">
-
-            Seats Reserved
-
-          </span>
-
-
-          <span class="info-value">
-
-            ${data.guests.length}
-
-          </span>
-
-
-        </div>
-
-
-      </div>
-
-
-      <div class="group-name">
-
-        ${escapeHTML(data.groupName)}
-
-      </div>
-
-
-      <div class="seats">
-
-        Your invitation includes
-
-        <strong>
-
-          ${data.guests.length}
-
-          ${data.guests.length === 1
-            ? "guest"
-            : "guests"}
-
-        </strong>.
+        If you notice anything incorrect in the
+        list or have any questions, please don't
+        hesitate to contact us.
 
       </div>
 
 
       ${guestHTML}
-
-
-      ${destinationHTML}
 
 
       <button
@@ -1844,11 +1780,6 @@ function buildDestinationSection(guests) {
   });
 
 
-  /*
-   * If no destinations have been
-   * assigned yet, show nothing.
-   */
-
   if (!hasDestination) {
 
     return "";
@@ -1876,11 +1807,6 @@ function buildDestinationSection(guests) {
 
     let passengerHTML = "";
 
-
-    /*
-     * Only show guest names when
-     * there are multiple destinations.
-     */
 
     if (!allSameDestination) {
 
@@ -1938,12 +1864,6 @@ function buildDestinationSection(guests) {
 
   });
 
-
-  /*
-   * Use a slightly longer note when
-   * everyone in the invitation shares
-   * the same destination/table.
-   */
 
   const destinationNote =
 
