@@ -23,10 +23,6 @@
 
   <style>
 
-    /* =========================================
-       COLORS
-    ========================================= */
-
     :root {
 
       --cream: #fbf7ef;
@@ -46,10 +42,6 @@
 
     }
 
-
-    /* =========================================
-       RESET
-    ========================================= */
 
     * {
       box-sizing: border-box;
@@ -314,22 +306,31 @@
 
 
     /* =========================================
-       HOMEPAGE TEXT
+       HOMEPAGE
     ========================================= */
 
     .eyebrow {
 
       text-align: center;
 
-      font-size: 12px;
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
 
-      letter-spacing: 4px;
+      font-size: 42px;
+
+      font-weight: 500;
+
+      line-height: 1.15;
+
+      letter-spacing: 2px;
 
       text-transform: uppercase;
 
-      color: var(--muted);
+      color: var(--brown);
 
-      margin-bottom: 28px;
+      margin-bottom: 20px;
 
     }
 
@@ -339,15 +340,15 @@
       text-align: center;
 
       font-family:
-        "Cormorant Garamond",
-        Georgia,
-        serif;
+        "DM Sans",
+        Arial,
+        sans-serif;
 
-      font-size: 28px;
+      font-size: 13px;
 
-      line-height: 1.55;
+      line-height: 1.7;
 
-      color: var(--brown);
+      color: var(--muted);
 
       max-width: 520px;
 
@@ -360,7 +361,7 @@
 
       text-align: center;
 
-      margin-top: 25px;
+      margin-top: 22px;
 
       font-size: 12px;
 
@@ -401,55 +402,6 @@
       border-top:
         1px dashed
         var(--line);
-
-    }
-
-
-    /* =========================================
-       PASSPORT STAMP
-    ========================================= */
-
-    .stamp {
-
-      width: 105px;
-
-      height: 105px;
-
-      margin: 30px auto;
-
-      border:
-        2px solid
-        rgba(117,100,81,.35);
-
-      border-radius: 50%;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      text-align: center;
-
-      transform: rotate(-8deg);
-
-      color: var(--brown);
-
-      font-size: 9px;
-
-      letter-spacing: 1px;
-
-      text-transform: uppercase;
-
-      background:
-        rgba(245,223,145,.13);
-
-    }
-
-
-    .stamp-text {
-
-      line-height: 1.6;
 
     }
 
@@ -1033,9 +985,16 @@
       }
 
 
+      .eyebrow {
+
+        font-size: 34px;
+
+      }
+
+
       .journey {
 
-        font-size: 25px;
+        font-size: 13px;
 
       }
 
@@ -1171,24 +1130,6 @@
 
 
 
-          <div class="stamp">
-
-
-            <div class="stamp-text">
-
-              RSVP<br>
-
-              ADMIT ONE<br>
-
-              2027
-
-            </div>
-
-
-          </div>
-
-
-
           <div class="instruction">
 
             Your invitation awaits.
@@ -1270,12 +1211,6 @@
 <script>
 
 
-/*
-================================================
-GOOGLE APPS SCRIPT URL
-================================================
-*/
-
 const API_URL =
 "https://script.google.com/macros/s/AKfycbw7_rvyadRRuvjjylNuqP7VN4CMR1ml4c3HUYPoEWTysGKHWYgOaVbhxgnPhDmKfULO/exec";
 
@@ -1287,12 +1222,6 @@ let currentInvitation = null;
 let responses = {};
 
 
-
-/*
-================================================
-FIND INVITATION
-================================================
-*/
 
 async function findInvitation() {
 
@@ -1450,12 +1379,6 @@ async function findInvitation() {
 }
 
 
-
-/*
-================================================
-SHOW INVITATION
-================================================
-*/
 
 function showInvitation(data) {
 
@@ -1694,12 +1617,6 @@ function showInvitation(data) {
 
 
 
-/*
-================================================
-CHOOSE RESPONSE
-================================================
-*/
-
 function chooseResponse(index, response) {
 
 
@@ -1756,12 +1673,6 @@ function chooseResponse(index, response) {
 }
 
 
-
-/*
-================================================
-SUBMIT RSVP
-================================================
-*/
 
 async function submitRSVP() {
 
@@ -1928,12 +1839,6 @@ async function submitRSVP() {
 
 
 
-/*
-================================================
-SUCCESS
-================================================
-*/
-
 function showSuccess() {
 
 
@@ -2007,12 +1912,6 @@ function showSuccess() {
 }
 
 
-
-/*
-================================================
-ALREADY SUBMITTED
-================================================
-*/
 
 function showAlreadySubmitted(data) {
 
@@ -2155,12 +2054,6 @@ function showAlreadySubmitted(data) {
 
 
 
-/*
-================================================
-START OVER
-================================================
-*/
-
 function startOver() {
 
 
@@ -2194,12 +2087,6 @@ function startOver() {
 }
 
 
-
-/*
-================================================
-ESCAPE HTML
-================================================
-*/
 
 function escapeHTML(value) {
 
