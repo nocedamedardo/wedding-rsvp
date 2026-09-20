@@ -86,6 +86,10 @@
     }
 
 
+    /* =========================================
+       DECORATIVE FLIGHT PATHS
+    ========================================= */
+
     .flight-path {
 
       position: fixed;
@@ -166,6 +170,10 @@
     }
 
 
+    /* =========================================
+       CONTAINER
+    ========================================= */
+
     .container {
 
       position: relative;
@@ -180,6 +188,10 @@
 
     }
 
+
+    /* =========================================
+       PASSPORT
+    ========================================= */
 
     .passport {
 
@@ -284,6 +296,10 @@
 
     }
 
+
+    /* =========================================
+       HOMEPAGE
+    ========================================= */
 
     .eyebrow {
 
@@ -489,6 +505,10 @@
     }
 
 
+    /* =========================================
+       INVITATION
+    ========================================= */
+
     .destination-label {
 
       text-align: center;
@@ -529,61 +549,25 @@
     }
 
 
-    .boarding-info {
+    .group-name {
 
-      display: grid;
-
-      grid-template-columns:
-        1fr 1fr;
-
-      gap: 1px;
-
-      background: var(--line);
-
-      border: 1px solid var(--line);
-
-      margin-bottom: 25px;
-
-    }
-
-
-    .info-box {
-
-      background: var(--paper);
-
-      padding: 14px;
-
-    }
-
-
-    .info-label {
-
-      display: block;
-
-      font-size: 9px;
-
-      letter-spacing: 2px;
-
-      text-transform: uppercase;
-
-      color: var(--muted);
-
-      margin-bottom: 5px;
-
-    }
-
-
-    .info-value {
+      text-align: center;
 
       font-family:
         "Cormorant Garamond",
         Georgia,
         serif;
 
-      font-size: 20px;
+      font-size: 30px;
+
+      margin: 20px 0 5px;
 
     }
 
+
+    /* =========================================
+       GUESTS
+    ========================================= */
 
     .guest {
 
@@ -616,9 +600,9 @@
 
       color: var(--muted);
 
-      margin-bottom: 12px;
+      margin-top: 8px;
 
-      font-style: italic;
+      text-align: center;
 
     }
 
@@ -688,6 +672,21 @@
 
     }
 
+
+    .choice.disabled {
+
+      opacity: .55;
+
+      cursor: not-allowed;
+
+      background: #f4f1ec;
+
+    }
+
+
+    /* =========================================
+       DESTINATIONS
+    ========================================= */
 
     .destinations-section {
 
@@ -822,6 +821,10 @@
     }
 
 
+    /* =========================================
+       SUCCESS
+    ========================================= */
+
     .success {
 
       text-align: center;
@@ -896,18 +899,47 @@
     }
 
 
-    .date-location {
+    .wedding-link {
 
-      margin-top: 5px;
+      display: block;
 
-      color: var(--muted);
+      width: 100%;
 
-      font-size: 12px;
+      margin-top: 22px;
 
-      letter-spacing: 2px;
+      padding: 14px;
+
+      border:
+        1px solid
+        var(--brown);
+
+      border-radius: 4px;
+
+      color: var(--brown);
+
+      text-decoration: none;
+
+      font-size: 11px;
+
+      letter-spacing: 1px;
+
+      transition: all .2s;
 
     }
 
+
+    .wedding-link:hover {
+
+      background: var(--brown);
+
+      color: white;
+
+    }
+
+
+    /* =========================================
+       ALREADY SUBMITTED
+    ========================================= */
 
     .already {
 
@@ -992,6 +1024,10 @@
     }
 
 
+    /* =========================================
+       FOOTER
+    ========================================= */
+
     .footer {
 
       text-align: center;
@@ -1052,11 +1088,6 @@
 
 
       .choices {
-        grid-template-columns: 1fr;
-      }
-
-
-      .boarding-info {
         grid-template-columns: 1fr;
       }
 
@@ -1122,9 +1153,9 @@
         <div class="corner bottom-right"></div>
 
 
-        <!-- =========================
+        <!-- =====================================
              WELCOME PAGE
-        ========================== -->
+        ====================================== -->
 
         <div id="welcome">
 
@@ -1255,14 +1286,16 @@ let currentInvitation = null;
 let responses = {};
 
 
-/* =========================
+
+/* =========================================
    FIND INVITATION
-========================= */
+========================================= */
 
 async function findInvitation() {
 
 
   const input =
+
     document
       .getElementById("codeInput")
       .value
@@ -1271,11 +1304,13 @@ async function findInvitation() {
 
 
   const message =
+
     document
       .getElementById("searchMessage");
 
 
   const button =
+
     document
       .getElementById("findButton");
 
@@ -1299,7 +1334,9 @@ async function findInvitation() {
 
   button.disabled = true;
 
-  button.textContent = "CHECKING...";
+  button.textContent =
+    "CHECKING...";
+
 
   message.innerHTML = "";
 
@@ -1308,6 +1345,7 @@ async function findInvitation() {
 
 
     const response =
+
       await fetch(
 
         API_URL,
@@ -1344,6 +1382,7 @@ async function findInvitation() {
 
     if (!data.found) {
 
+
       message.innerHTML = `
 
         <div class="error">
@@ -1356,6 +1395,7 @@ async function findInvitation() {
 
       `;
 
+
       return;
 
     }
@@ -1365,11 +1405,11 @@ async function findInvitation() {
 
     currentInvitation = data;
 
+
     showInvitation(data);
 
 
   }
-
 
   catch (error) {
 
@@ -1390,7 +1430,6 @@ async function findInvitation() {
 
   }
 
-
   finally {
 
     button.disabled = false;
@@ -1403,9 +1442,10 @@ async function findInvitation() {
 }
 
 
-/* =========================
+
+/* =========================================
    SHOW INVITATION
-========================= */
+========================================= */
 
 function showInvitation(data) {
 
@@ -1416,8 +1456,21 @@ function showInvitation(data) {
 
 
   const result =
-    document
-      .getElementById("result");
+    document.getElementById("result");
+
+
+  /*
+   * Only show the completed page
+   * when EVERY guest has responded.
+   */
+
+  if (data.alreadySubmitted) {
+
+    showAlreadySubmitted(data);
+
+    return;
+
+  }
 
 
   responses = {};
@@ -1431,18 +1484,12 @@ function showInvitation(data) {
     function(guest, index) {
 
 
-      /*
-       * If this guest already responded,
-       * show their existing status and
-       * don't allow another submission.
-       */
-
-      const hasResponded =
+      const hasSubmitted =
         guest.status === "Attending" ||
         guest.status === "Declining";
 
 
-      if (!hasResponded) {
+      if (!hasSubmitted) {
 
         responses[index] = null;
 
@@ -1462,25 +1509,15 @@ function showInvitation(data) {
 
 
           ${
-            hasResponded
+            hasSubmitted
 
               ? `
 
                 <div class="guest-status">
 
-                  RSVP already confirmed:
-                  <strong
-                    class="${
-                      guest.status === "Attending"
-                        ? "attending"
-                        : "declining"
-                    }"
-                  >
-
-                    ${escapeHTML(
-                      guest.status
-                    )}
-
+                  ✓ RSVP already confirmed:
+                  <strong>
+                    ${escapeHTML(guest.status)}
                   </strong>
 
                 </div>
@@ -1536,6 +1573,7 @@ function showInvitation(data) {
 
           }
 
+
         </div>
 
       `;
@@ -1543,22 +1581,6 @@ function showInvitation(data) {
     }
 
   );
-
-
-  /*
-   * Check whether there are any guests
-   * who still need an RSVP.
-   */
-
-  const hasPendingGuests =
-    data.guests.some(function(guest) {
-
-      return !(
-        guest.status === "Attending" ||
-        guest.status === "Declining"
-      );
-
-    });
 
 
   result.innerHTML = `
@@ -1596,12 +1618,12 @@ function showInvitation(data) {
         To keep things simple, you can confirm
         the RSVP just for yourself or for everyone
         included in your invitation. Just make sure
-        the response you select is accurate for
-        each guest.
+        the response you select is accurate for each
+        guest.
 
         <br><br>
 
-        If anything in the list doesn’t look right,
+        If anything in the list doesn't look right,
         or if you have any questions, please feel
         free to reach out to us.
 
@@ -1611,30 +1633,19 @@ function showInvitation(data) {
       ${guestHTML}
 
 
-      ${
-        hasPendingGuests
+      <button
 
-          ? `
+        id="submitButton"
 
-            <button
+        class="main-button"
 
-              id="submitButton"
+        onclick="submitRSVP()"
 
-              class="main-button"
+      >
 
-              onclick="submitRSVP()"
+        CHECK IN &nbsp; ✈
 
-            >
-
-              CHECK IN &nbsp; ✈
-
-            </button>
-
-          `
-
-          : ""
-
-      }
+      </button>
 
 
       <button
@@ -1663,9 +1674,10 @@ function showInvitation(data) {
 }
 
 
-/* =========================
+
+/* =========================================
    CHOOSE RESPONSE
-========================= */
+========================================= */
 
 function chooseResponse(
   index,
@@ -1673,8 +1685,26 @@ function chooseResponse(
 ) {
 
 
-  responses[index] =
-    response;
+  /*
+   * Don't allow changing a guest
+   * who has already submitted.
+   */
+
+  const guest =
+    currentInvitation.guests[index];
+
+
+  if (
+    guest.status === "Attending" ||
+    guest.status === "Declining"
+  ) {
+
+    return;
+
+  }
+
+
+  responses[index] = response;
 
 
   const attending =
@@ -1689,203 +1719,8 @@ function chooseResponse(
     );
 
 
-  if (!attending || !declining) {
-    return;
-  }
-
-
   attending.classList.remove(
     "selected",
-    "attending"
-  );
-
-
-  declining.classList.remove(
-    "selected",
-    "declining"
-  );
-
-
-  if (response === "Attending") {
-
-    attending.classList.add(
-      "selected",
-      "attending"
-    );
-
-  }
-
-
-  if (response === "Declining") {
-
-    declining.classList.add(
-      "selected",
-      "declining"
-    );
-
-  }
-
-}
-
-
-/* =========================
-   SUBMIT RSVP
-========================= */
-
-async function submitRSVP() {
-
-
-  const guests =
-    currentInvitation.guests;
-
-
-  /*
-   * IMPORTANT:
-   *
-   * Only guests with a selected response
-   * are included.
-   *
-   * Unanswered guests are skipped.
-   */
-
-  const responseData =
-
-    guests
-
-      .map(function(guest, index) {
-
-
-        if (!responses[index]) {
-
-          return null;
-
-        }
-
-
-        return {
-
-          name:
-            guest.name,
-
-          response:
-            responses[index]
-
-        };
-
-      })
-
-
-      .filter(function(response) {
-
-        return response !== null;
-
-      });
-
-
-  /*
-   * Require at least one guest to
-   * have a selected response.
-   */
-
-  if (responseData.length === 0) {
-
-    alert(
-      "Please select a response for at least one guest."
-    );
-
-    return;
-
-  }
-
-
-  const button =
-    document.getElementById(
-      "submitButton"
-    );
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "CHECKING YOU IN...";
-
-
-  try {
-
-
-    const response =
-      await fetch(
-
-        API_URL,
-
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "Content-Type":
-              "text/plain;charset=utf-8"
-
-          },
-
-          body: JSON.stringify({
-
-            action:
-              "submitRSVP",
-
-            code:
-              currentCode,
-
-            responses:
-              responseData
-
-          })
-
-        }
-
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (!data.success) {
-
-      alert(
-
-        data.error ||
-        "Something went wrong."
-
-      );
-
-
-      button.disabled = false;
-
-      button.textContent =
-        "CHECK IN ✈";
-
-
-      return;
-
-    }
-
-
-    showSuccess();
-
-
-  }
-
-
-  catch (error) {
-
-    console.error(error);
-
-
-    alert(
-
-      "We couldn't submit
-
+    "attending
 
 
