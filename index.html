@@ -544,13 +544,20 @@
 
       text-align: center;
 
-      font-size: 10px;
+      font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
 
-      letter-spacing: 3px;
+      font-size: 42px;
 
-      text-transform: uppercase;
+      font-weight: 500;
 
-      color: var(--muted);
+      letter-spacing: 1px;
+
+      color: var(--brown);
+
+      margin-bottom: 8px;
 
     }
 
@@ -787,9 +794,9 @@
 
     .destination-group {
 
-      margin-bottom: 24px;
+      margin-bottom: 18px;
 
-      padding: 20px 15px;
+      padding: 24px 15px;
 
       border:
         1px solid
@@ -828,7 +835,7 @@
 
       gap: 5px 16px;
 
-      margin-bottom: 18px;
+      margin-bottom: 15px;
 
     }
 
@@ -849,22 +856,12 @@
     }
 
 
-    .destination-caption {
-
-      text-align: center;
-
-      font-size: 9px;
-
-      letter-spacing: 3px;
-
-      text-transform: uppercase;
-
-      color: var(--muted);
-
-      margin-bottom: 2px;
-
-    }
-
+    /*
+     * Main destination.
+     * This is intentionally large
+     * so it becomes the focal point
+     * of the card.
+     */
 
     .destination-name {
 
@@ -875,11 +872,11 @@
         Georgia,
         serif;
 
-      font-size: 34px;
+      font-size: 42px;
 
       font-weight: 600;
 
-      line-height: 1.1;
+      line-height: 1.05;
 
       color: var(--brown);
 
@@ -1167,6 +1164,13 @@
       }
 
 
+      .destination-label {
+
+        font-size: 36px;
+
+      }
+
+
       .destination {
 
         font-size: 31px;
@@ -1190,7 +1194,7 @@
 
       .destination-name {
 
-        font-size: 31px;
+        font-size: 37px;
 
       }
 
@@ -1380,6 +1384,10 @@ let currentInvitation = null;
 let responses = {};
 
 
+
+/* =========================================
+   FIND INVITATION
+========================================= */
 
 async function findInvitation() {
 
@@ -1658,7 +1666,7 @@ function showInvitation(data) {
 
       <div class="destination-label">
 
-        Destination
+        Your Destination
 
       </div>
 
@@ -1853,18 +1861,33 @@ function buildDestinationSection(guests) {
   }
 
 
+  const destinationKeys =
+    Object.keys(destinationGroups);
+
+
+  const allSameDestination =
+    destinationKeys.length === 1;
+
+
   let groupsHTML = "";
 
 
-  Object.keys(destinationGroups)
-    .forEach(function(key) {
+  destinationKeys.forEach(function(key) {
 
 
-      const group =
-        destinationGroups[key];
+    const group =
+      destinationGroups[key];
 
 
-      let passengerHTML = "";
+    let passengerHTML = "";
+
+
+    /*
+     * Only show guest names when
+     * there are multiple destinations.
+     */
+
+    if (!allSameDestination) {
 
 
       group.guests.forEach(
@@ -1885,39 +1908,40 @@ function buildDestinationSection(guests) {
 
       );
 
-
-      groupsHTML += `
-
-
-        <div class="destination-group">
+    }
 
 
-          <div class="destination-passengers">
-
-            ${passengerHTML}
-
-          </div>
+    groupsHTML += `
 
 
-          <div class="destination-caption">
-
-            Destination
-
-          </div>
+      <div class="destination-group">
 
 
-          <div class="destination-name">
+        ${
+          !allSameDestination
+            ? `
+              <div class="destination-passengers">
 
-            ${escapeHTML(group.name)}
+                ${passengerHTML}
 
-          </div>
+              </div>
+            `
+            : ""
+        }
 
+
+        <div class="destination-name">
+
+          ${escapeHTML(group.name)}
 
         </div>
 
-      `;
 
-    });
+      </div>
+
+    `;
+
+  });
 
 
   return `
@@ -2325,11 +2349,6 @@ function showAlreadySubmitted(data) {
 
   );
 
-
-  /*
-   * Also show destinations on the
-   * already-submitted page.
-   */
 
   const destinationHTML =
     buildDestinationSection(
