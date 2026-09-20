@@ -82,6 +82,10 @@
     }
 
 
+    /* =========================================
+       DECORATIVE FLIGHT PATHS
+    ========================================= */
+
     .flight-path {
 
       position: fixed;
@@ -156,6 +160,10 @@
     }
 
 
+    /* =========================================
+       CONTAINER
+    ========================================= */
+
     .container {
 
       position: relative;
@@ -169,6 +177,10 @@
       margin: 0 auto;
     }
 
+
+    /* =========================================
+       PASSPORT
+    ========================================= */
 
     .passport {
 
@@ -203,6 +215,10 @@
       overflow: hidden;
     }
 
+
+    /* =========================================
+       DECORATIVE CORNERS
+    ========================================= */
 
     .corner {
 
@@ -267,6 +283,10 @@
     }
 
 
+    /* =========================================
+       HOMEPAGE
+    ========================================= */
+
     .eyebrow {
 
       text-align: center;
@@ -313,6 +333,10 @@
     }
 
 
+    /* =========================================
+       FLIGHT DIVIDER
+    ========================================= */
+
     .route {
 
       display: flex;
@@ -338,6 +362,10 @@
         var(--line);
     }
 
+
+    /* =========================================
+       RSVP INSTRUCTION
+    ========================================= */
 
     .instruction {
 
@@ -367,6 +395,10 @@
       margin-bottom: 22px;
     }
 
+
+    /* =========================================
+       RSVP CODE INPUT
+    ========================================= */
 
     .code-input {
 
@@ -409,6 +441,10 @@
         rgba(203,191,223,.20);
     }
 
+
+    /* =========================================
+       BUTTONS
+    ========================================= */
 
     .main-button {
 
@@ -459,6 +495,10 @@
       transform: none;
     }
 
+
+    /* =========================================
+       WEDDING WEBSITE BUTTON
+    ========================================= */
 
     .website-button {
 
@@ -513,6 +553,10 @@
         translateY(-1px);
     }
 
+
+    /* =========================================
+       INVITATION PAGE
+    ========================================= */
 
     .invitation {
 
@@ -637,6 +681,10 @@
     }
 
 
+    /* =========================================
+       GUEST RESPONSE
+    ========================================= */
+
     .guest {
 
       padding: 20px 5px;
@@ -701,6 +749,7 @@
 
       border-color: var(--brown);
 
+      transform: translateY(-1px);
     }
 
 
@@ -724,19 +773,9 @@
     }
 
 
-    .choice-hint {
-
-      margin-top: 8px;
-
-      font-size: 10px;
-
-      color: var(--muted);
-
-      text-align: center;
-
-      line-height: 1.5;
-    }
-
+    /* =========================================
+       INDIVIDUAL RSVP ALREADY CONFIRMED
+    ========================================= */
 
     .guest-confirmed {
 
@@ -802,30 +841,9 @@
     }
 
 
-    .selection-note {
-
-      margin-top: 22px;
-
-      padding: 15px;
-
-      border:
-        1px solid
-        rgba(117,100,81,.15);
-
-      background:
-        rgba(245,223,145,.10);
-
-      border-radius: 4px;
-
-      text-align: center;
-
-      color: var(--muted);
-
-      font-size: 12px;
-
-      line-height: 1.7;
-    }
-
+    /* =========================================
+       DESTINATION ASSIGNMENTS
+    ========================================= */
 
     .destinations-section {
 
@@ -952,6 +970,10 @@
     }
 
 
+    /* =========================================
+       SUCCESS PAGE
+    ========================================= */
+
     .success {
 
       text-align: center;
@@ -1033,6 +1055,10 @@
     }
 
 
+    /* =========================================
+       ALREADY SUBMITTED
+    ========================================= */
+
     .already {
 
       text-align: center;
@@ -1095,6 +1121,10 @@
     }
 
 
+    /* =========================================
+       ERROR
+    ========================================= */
+
     .error {
 
       text-align: center;
@@ -1108,6 +1138,10 @@
       margin-top: 15px;
     }
 
+
+    /* =========================================
+       FOOTER
+    ========================================= */
 
     .footer {
 
@@ -1138,6 +1172,10 @@
       margin-top: 2px;
     }
 
+
+    /* =========================================
+       MOBILE
+    ========================================= */
 
     @media (max-width: 520px) {
 
@@ -1223,6 +1261,7 @@
 
 <body>
 
+
   <div class="flight-path one"></div>
 
   <div class="flight-path two"></div>
@@ -1234,9 +1273,12 @@
 
   <div class="container">
 
+
     <div class="passport">
 
+
       <div class="passport-inner">
+
 
         <div class="corner top-left"></div>
 
@@ -1247,7 +1289,12 @@
         <div class="corner bottom-right"></div>
 
 
+        <!-- =====================================
+             HOMEPAGE
+        ====================================== -->
+
         <div id="welcome">
+
 
           <div class="eyebrow">
 
@@ -1296,18 +1343,28 @@
 
 
           <input
+
             id="codeInput"
+
             class="code-input"
+
             type="text"
+
             placeholder="RSVP CODE"
+
             autocomplete="off"
+
           >
 
 
           <button
+
             id="findButton"
+
             class="main-button"
+
             onclick="findInvitation()"
+
           >
 
             CHECK IN &nbsp; ✈
@@ -1317,10 +1374,16 @@
 
           <div id="searchMessage"></div>
 
+
         </div>
 
 
+        <!-- =====================================
+             RSVP RESULT
+        ====================================== -->
+
         <div id="result"></div>
+
 
       </div>
 
@@ -1342,6 +1405,7 @@
       </span>
 
     </div>
+
 
   </div>
 
@@ -1372,7 +1436,9 @@ let responses = {};
 
 async function findInvitation() {
 
+
   const input =
+
     document
       .getElementById("codeInput")
       .value
@@ -1381,24 +1447,32 @@ async function findInvitation() {
 
 
   const message =
+
     document
       .getElementById("searchMessage");
 
 
   const button =
+
     document
       .getElementById("findButton");
 
 
   if (!input) {
 
+
     message.innerHTML = `
+
       <div class="error">
+
         Please enter your RSVP code.
+
       </div>
+
     `;
 
     return;
+
   }
 
 
@@ -1406,47 +1480,68 @@ async function findInvitation() {
 
   button.textContent = "CHECKING...";
 
+
   message.innerHTML = "";
 
 
   try {
 
+
     const response =
+
       await fetch(
+
         API_URL,
+
         {
+
           method: "POST",
 
           headers: {
+
             "Content-Type":
               "text/plain;charset=utf-8"
+
           },
 
           body: JSON.stringify({
+
             action:
               "findInvitation",
 
             code:
               input
+
           })
+
         }
+
       );
 
 
     const data =
+
       await response.json();
 
 
     if (!data.found) {
 
+
       message.innerHTML = `
+
         <div class="error">
+
           We couldn't find that RSVP code.<br>
+
           Please check your code and try again.
+
         </div>
+
       `;
 
+
       return;
+
     }
 
 
@@ -1454,26 +1549,36 @@ async function findInvitation() {
 
     currentInvitation = data;
 
+
     showInvitation(data);
+
 
   }
 
 
   catch (error) {
 
+
     console.error(error);
 
+
     message.innerHTML = `
+
       <div class="error">
+
         Something went wrong.<br>
+
         Please try again.
+
       </div>
+
     `;
 
   }
 
 
   finally {
+
 
     button.disabled = false;
 
@@ -1492,19 +1597,22 @@ async function findInvitation() {
 
 function showInvitation(data) {
 
+
   document
     .getElementById("welcome")
     .style.display = "none";
 
 
   const result =
+
     document
       .getElementById("result");
 
 
   /*
-   * Only show the completed page when
-   * EVERY guest has already RSVP'd.
+   * Only show the full submitted page
+   * when EVERY guest in the invitation
+   * has already RSVP'd.
    */
 
   if (data.alreadySubmitted) {
@@ -1523,18 +1631,24 @@ function showInvitation(data) {
 
 
   data.guests.forEach(
+
     function(guest, index) {
+
 
       responses[index] = null;
 
 
       /*
-       * Existing RSVP
+       * =====================================
+       * GUEST ALREADY RSVP'D
+       * =====================================
        */
 
       if (guest.submitted) {
 
+
         const status =
+
           String(
             guest.status || ""
           ).trim();
@@ -1560,9 +1674,13 @@ function showInvitation(data) {
 
           <div class="guest">
 
+
             <div class="guest-name">
+
               ${escapeHTML(guest.name)}
+
             </div>
+
 
             <div
               class="
@@ -1572,16 +1690,23 @@ function showInvitation(data) {
             >
 
               <span class="status">
+
                 ${statusText}
+
               </span>
+
 
               <br>
 
+
               <span>
+
                 RSVP already confirmed
+
               </span>
 
             </div>
+
 
           </div>
 
@@ -1594,12 +1719,15 @@ function showInvitation(data) {
 
 
       /*
-       * Guest has not RSVP'd yet.
+       * =====================================
+       * GUEST HAS NOT RSVP'D YET
+       * =====================================
        */
 
       guestHTML += `
 
         <div class="guest">
+
 
           <div class="guest-name">
 
@@ -1612,12 +1740,16 @@ function showInvitation(data) {
 
 
             <div
+
               class="choice"
+
               id="attending-${index}"
+
               onclick="chooseResponse(
                 ${index},
                 'Attending'
               )"
+
             >
 
               🛫 &nbsp;
@@ -1627,12 +1759,16 @@ function showInvitation(data) {
 
 
             <div
+
               class="choice"
+
               id="declining-${index}"
+
               onclick="chooseResponse(
                 ${index},
                 'Declining'
               )"
+
             >
 
               🛬 &nbsp;
@@ -1644,21 +1780,34 @@ function showInvitation(data) {
           </div>
 
 
-          <div class="choice-hint">
+          <div
+            id="selection-note-${index}"
+            style="
+              display:none;
+              text-align:center;
+              color:#8c8278;
+              font-size:10px;
+              margin-top:9px;
+              line-height:1.5;
+            "
+          >
 
-            Click a selected option again to clear it.
+            Click your selected option again to clear it.
 
           </div>
+
 
         </div>
 
       `;
 
     }
+
   );
 
 
   result.innerHTML = `
+
 
     <div class="invitation">
 
@@ -1680,38 +1829,23 @@ function showInvitation(data) {
       <div
         class="journey"
         style="
-          font-size:13px;
-          line-height:1.65;
-          margin-bottom:28px;
+          font-size: 13px;
+          line-height: 1.7;
+          margin-bottom: 28px;
         "
       >
 
-        You may RSVP for <strong>yourself only</strong>,
-        or you may confirm the RSVP for
-        <strong>everyone listed below</strong>.
+        You may RSVP for yourself, or you may
+        confirm the attendance of everyone listed
+        on your invitation. If you choose to RSVP
+        only for yourself, the other guests listed
+        may still submit their own RSVP separately.
 
         <br><br>
 
-        Simply select <strong>YES, I'M COMING</strong>
-        or <strong>SORRY, I CAN'T MAKE IT</strong>
-        for each person you would like to RSVP for.
-
-        <br><br>
-
-        You do <strong>not</strong> need to answer
-        everyone at once. You can leave anyone
-        unselected if you are not submitting
-        their RSVP.
-
-        <br><br>
-
-        If you accidentally select an option,
-        <strong>click it again to clear your selection</strong>.
-
-        <br><br>
-
-        Guests who have already RSVP'd will show
-        their confirmed status below.
+        If you notice anything incorrect in the
+        guest list or have any questions, please
+        don't hesitate to contact us.
 
       </div>
 
@@ -1719,18 +1853,14 @@ function showInvitation(data) {
       ${guestHTML}
 
 
-      <div class="selection-note">
-
-        Please make sure the responses you submit
-        are correct before checking in.
-
-      </div>
-
-
       <button
+
         id="submitButton"
+
         class="main-button"
+
         onclick="submitRSVP()"
+
       >
 
         CHECK IN &nbsp; ✈
@@ -1739,13 +1869,17 @@ function showInvitation(data) {
 
 
       <button
+
         class="main-button"
+
         style="
           background:transparent;
           color:#756451;
           border:1px solid #ded5ca;
         "
+
         onclick="startOver()"
+
       >
 
         ← BACK
@@ -1756,482 +1890,6 @@ function showInvitation(data) {
     </div>
 
   `;
-
-}
-
-
-
-/* =========================================
-   CHOOSE / CLEAR RESPONSE
-========================================= */
-
-function chooseResponse(index, response) {
-
-
-  /*
-   * Already submitted guests cannot
-   * be changed.
-   */
-
-  if (
-    currentInvitation &&
-    currentInvitation.guests[index] &&
-    currentInvitation.guests[index].submitted
-  ) {
-
-    return;
-
-  }
-
-
-  /*
-   * If the same option is clicked again,
-   * clear the response completely.
-   */
-
-  if (responses[index] === response) {
-
-    responses[index] = null;
-
-  } else {
-
-    responses[index] = response;
-
-  }
-
-
-  const attending =
-    document.getElementById(
-      `attending-${index}`
-    );
-
-
-  const declining =
-    document.getElementById(
-      `declining-${index}`
-    );
-
-
-  if (!attending || !declining) {
-
-    return;
-
-  }
-
-
-  attending.classList.remove(
-    "selected",
-    "attending"
-  );
-
-
-  declining.classList.remove(
-    "selected",
-    "declining"
-  );
-
-
-  if (responses[index] === "Attending") {
-
-    attending.classList.add(
-      "selected",
-      "attending"
-    );
-
-  }
-
-
-  if (responses[index] === "Declining") {
-
-    declining.classList.add(
-      "selected",
-      "declining"
-    );
-
-  }
-
-}
-
-
-
-/* =========================================
-   SUBMIT RSVP
-========================================= */
-
-async function submitRSVP() {
-
-
-  if (
-    !currentInvitation ||
-    !Array.isArray(currentInvitation.guests)
-  ) {
-
-    alert(
-      "Please enter your RSVP code first."
-    );
-
-    return;
-
-  }
-
-
-  const guests =
-    currentInvitation.guests;
-
-
-  /*
-   * Only submit guests that have
-   * an actual selection.
-   */
-
-  const responseData = [];
-
-
-  guests.forEach(
-    function(guest, index) {
-
-      /*
-       * Never resubmit someone who
-       * has already submitted.
-       */
-
-      if (guest.submitted) {
-
-        return;
-
-      }
-
-
-      /*
-       * Unselected guests are simply
-       * skipped.
-       */
-
-      if (!responses[index]) {
-
-        return;
-
-      }
-
-
-      responseData.push({
-
-        name:
-          guest.name,
-
-        response:
-          responses[index]
-
-      });
-
-    }
-  );
-
-
-  /*
-   * At least one guest must be selected.
-   */
-
-  if (responseData.length === 0) {
-
-    alert(
-      "Please select at least one guest to RSVP for."
-    );
-
-    return;
-
-  }
-
-
-  const button =
-    document.getElementById(
-      "submitButton"
-    );
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "CHECKING YOU IN...";
-
-
-  try {
-
-    const response =
-      await fetch(
-        API_URL,
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "text/plain;charset=utf-8"
-          },
-
-          body: JSON.stringify({
-
-            action:
-              "submitRSVP",
-
-            code:
-              currentCode,
-
-            responses:
-              responseData
-
-          })
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (!data.success) {
-
-      alert(
-        data.error ||
-        "Something went wrong."
-      );
-
-      button.disabled = false;
-
-      button.textContent =
-        "CHECK IN ✈";
-
-      return;
-
-    }
-
-
-    showSuccess();
-
-  }
-
-
-  catch (error) {
-
-    console.error(error);
-
-    alert(
-      "We couldn't submit your RSVP. Please try again."
-    );
-
-    button.disabled = false;
-
-    button.textContent =
-      "CHECK IN ✈";
-
-  }
-
-}
-
-
-
-/* =========================================
-   SUCCESS
-========================================= */
-
-function showSuccess() {
-
-  document
-    .getElementById("result")
-    .innerHTML = `
-
-      <div class="success">
-
-        <div class="success-icon">
-          ✈
-        </div>
-
-
-        <div class="success-title">
-          Check-in Complete
-        </div>
-
-
-        <div class="success-message">
-
-          <strong>
-            Thank you for confirming!
-          </strong>
-
-          <br><br>
-
-          Your RSVP has been
-          successfully recorded.
-
-          <br><br>
-
-          We can't wait to celebrate
-          this special day with you. 🤍
-
-        </div>
-
-
-        <div class="couple-signature">
-          Med &amp; Jean
-        </div>
-
-
-        <div class="date-location">
-          02 • 12 • 27
-        </div>
-
-
-        <a
-          href="${WEDDING_WEBSITE}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="website-button"
-        >
-
-          ← GO BACK TO OUR WEDDING WEBSITE
-
-        </a>
-
-
-      </div>
-
-    `;
-
-}
-
-
-
-/* =========================================
-   ALREADY SUBMITTED
-========================================= */
-
-function showAlreadySubmitted(data) {
-
-
-  let summary = "";
-
-
-  data.guests.forEach(
-    function(guest) {
-
-      const status =
-        guest.status ||
-        "Submitted";
-
-
-      const className =
-        status === "Attending"
-          ? "attending"
-          : "declining";
-
-
-      summary += `
-
-        <div class="summary-row">
-
-          <span>
-            ${escapeHTML(guest.name)}
-          </span>
-
-          <strong
-            class="${className}"
-          >
-
-            ${escapeHTML(status)}
-
-          </strong>
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  const destinationHTML =
-    buildDestinationSection(
-      data.guests
-    );
-
-
-  document
-    .getElementById("result")
-    .innerHTML = `
-
-      <div class="already">
-
-        <div class="success-icon">
-          ✓
-        </div>
-
-
-        <div class="already-title">
-          RSVP Already Confirmed
-        </div>
-
-
-        <p>
-          We've already received
-          the RSVP responses currently
-          recorded for this invitation.
-        </p>
-
-
-        <div class="summary">
-
-          ${summary}
-
-        </div>
-
-
-        ${destinationHTML}
-
-
-        <p
-          style="
-            color:#8c8278;
-            font-size:13px;
-            line-height:1.7;
-            margin-top:25px;
-          "
-        >
-
-          If you need to make a change,
-          please contact us.
-
-        </p>
-
-
-        <a
-          href="${WEDDING_WEBSITE}"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="website-button"
-        >
-
-          ← GO BACK TO OUR WEDDING WEBSITE
-
-        </a>
-
-
-        <button
-          class="main-button"
-          style="
-            background:transparent;
-            color:#756451;
-            border:1px solid #ded5ca;
-          "
-          onclick="startOver()"
-        >
-
-          ← BACK
-
-        </button>
-
-
-      </div>
-
-    `;
 
 }
 
@@ -2250,6 +1908,7 @@ function buildDestinationSection(guests) {
 
 
   guests.forEach(function(guest) {
+
 
     const destination =
       String(
@@ -2275,8 +1934,7 @@ function buildDestinationSection(guests) {
 
       destinationGroups[key] = {
 
-        name:
-          destination,
+        name: destination,
 
         guests: []
 
@@ -2312,6 +1970,7 @@ function buildDestinationSection(guests) {
 
   destinationKeys.forEach(function(key) {
 
+
     const group =
       destinationGroups[key];
 
@@ -2321,8 +1980,10 @@ function buildDestinationSection(guests) {
 
     if (!allSameDestination) {
 
+
       group.guests.forEach(
         function(name) {
+
 
           passengerHTML += `
 
@@ -2335,6 +1996,7 @@ function buildDestinationSection(guests) {
           `;
 
         }
+
       );
 
     }
@@ -2342,23 +2004,29 @@ function buildDestinationSection(guests) {
 
     groupsHTML += `
 
+
       <div class="destination-group">
+
 
         ${
           !allSameDestination
             ? `
               <div class="destination-passengers">
+
                 ${passengerHTML}
+
               </div>
             `
             : ""
         }
+
 
         <div class="destination-name">
 
           ${escapeHTML(group.name)}
 
         </div>
+
 
       </div>
 
@@ -2368,34 +2036,48 @@ function buildDestinationSection(guests) {
 
 
   const destinationNote =
+
     allSameDestination
+
       ? `
+
         Your destination indicates
         your assigned table assignment.
         All confirmed attendees listed above
         will be seated at this table.
+
       `
+
       : `
+
         Your destination indicates
         your assigned table assignment.
+
       `;
 
 
   return `
 
+
     <div class="destinations-section">
 
+
       <div class="destinations-heading">
+
         Your Destination
+
       </div>
 
+
       ${groupsHTML}
+
 
       <div class="destination-note">
 
         ${destinationNote}
 
       </div>
+
 
     </div>
 
@@ -2406,10 +2088,644 @@ function buildDestinationSection(guests) {
 
 
 /* =========================================
+   CHOOSE / UNCHOOSE RESPONSE
+========================================= */
+
+function chooseResponse(index, response) {
+
+
+  /*
+   * Safety check:
+   * already-submitted guests cannot
+   * be changed from the website.
+   */
+
+  if (
+    currentInvitation &&
+    currentInvitation.guests[index] &&
+    currentInvitation.guests[index].submitted
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * If the guest clicks the SAME option
+   * again, clear the selection.
+   */
+
+  if (responses[index] === response) {
+
+    responses[index] = null;
+
+  } else {
+
+    responses[index] = response;
+
+  }
+
+
+  const attending =
+
+    document.getElementById(
+      `attending-${index}`
+    );
+
+
+  const declining =
+
+    document.getElementById(
+      `declining-${index}`
+    );
+
+
+  const note =
+
+    document.getElementById(
+      `selection-note-${index}`
+    );
+
+
+  if (!attending || !declining) {
+
+    return;
+
+  }
+
+
+  /*
+   * Clear both visual states first.
+   */
+
+  attending.classList.remove(
+    "selected",
+    "attending"
+  );
+
+
+  declining.classList.remove(
+    "selected",
+    "declining"
+  );
+
+
+  /*
+   * Apply the selected state.
+   */
+
+  if (responses[index] === "Attending") {
+
+
+    attending.classList.add(
+      "selected",
+      "attending"
+    );
+
+  }
+
+
+  if (responses[index] === "Declining") {
+
+
+    declining.classList.add(
+      "selected",
+      "declining"
+    );
+
+  }
+
+
+  /*
+   * Show the small helper only
+   * while an option is selected.
+   */
+
+  if (note) {
+
+    note.style.display =
+      responses[index]
+        ? "block"
+        : "none";
+
+  }
+
+}
+
+
+
+/* =========================================
+   SUBMIT RSVP
+========================================= */
+
+async function submitRSVP() {
+
+
+  if (!currentInvitation) {
+
+    return;
+
+  }
+
+
+  const guests =
+    currentInvitation.guests;
+
+
+  let hasNewResponse = false;
+
+
+  /*
+   * Only guests who have NOT already
+   * RSVP'd need a response.
+   */
+
+  for (
+
+    let i = 0;
+
+    i < guests.length;
+
+    i++
+
+  ) {
+
+
+    if (guests[i].submitted) {
+
+      continue;
+
+    }
+
+
+    /*
+     * Every new guest being included
+     * in this submission must have
+     * a selected response.
+     */
+
+    if (!responses[i]) {
+
+
+      alert(
+
+        `Please select a response for ${guests[i].name}.`
+
+      );
+
+
+      return;
+
+    }
+
+
+    hasNewResponse = true;
+
+  }
+
+
+  /*
+   * Safety check if everyone has already
+   * submitted.
+   */
+
+  if (!hasNewResponse) {
+
+    alert(
+      "All guests in this invitation have already submitted their RSVP."
+    );
+
+    return;
+
+  }
+
+
+  const button =
+
+    document.getElementById(
+      "submitButton"
+    );
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "CHECKING YOU IN...";
+
+
+  /*
+   * Only send guests who are newly
+   * submitting an RSVP.
+   */
+
+  const responseData =
+
+    guests
+
+      .map(
+
+        function(guest, index) {
+
+
+          if (guest.submitted) {
+
+            return null;
+
+          }
+
+
+          return {
+
+            name:
+              guest.name,
+
+            response:
+              responses[index]
+
+          };
+
+        }
+
+      )
+
+      .filter(
+
+        function(response) {
+
+          return response !== null;
+
+        }
+
+      );
+
+
+  try {
+
+
+    const response =
+
+      await fetch(
+
+        API_URL,
+
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Content-Type":
+              "text/plain;charset=utf-8"
+
+          },
+
+          body: JSON.stringify({
+
+            action:
+              "submitRSVP",
+
+            code:
+              currentCode,
+
+            responses:
+              responseData
+
+          })
+
+        }
+
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!data.success) {
+
+
+      alert(
+
+        data.error ||
+        "Something went wrong."
+
+      );
+
+
+      button.disabled = false;
+
+      button.textContent =
+        "CHECK IN ✈";
+
+
+      return;
+
+    }
+
+
+    showSuccess();
+
+
+  }
+
+
+  catch (error) {
+
+
+    console.error(error);
+
+
+    alert(
+
+      "We couldn't submit your RSVP. Please try again."
+
+    );
+
+
+    button.disabled = false;
+
+    button.textContent =
+      "CHECK IN ✈";
+
+  }
+
+}
+
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+function showSuccess() {
+
+
+  document
+    .getElementById("result")
+    .innerHTML = `
+
+
+      <div class="success">
+
+
+        <div class="success-icon">
+
+          ✈
+
+        </div>
+
+
+        <div class="success-title">
+
+          Check-in Complete
+
+        </div>
+
+
+        <div class="success-message">
+
+
+          <strong>
+
+            Thank you for confirming!
+
+          </strong>
+
+
+          <br><br>
+
+
+          Your RSVP has been
+          successfully recorded.
+
+
+          <br><br>
+
+
+          We can't wait to celebrate
+          this special day with you. 🤍
+
+
+        </div>
+
+
+        <div class="couple-signature">
+
+          Med &amp; Jean
+
+        </div>
+
+
+        <div class="date-location">
+
+          02 • 12 • 27
+
+        </div>
+
+
+        <a
+
+          href="${WEDDING_WEBSITE}"
+
+          target="_blank"
+
+          rel="noopener noreferrer"
+
+          class="website-button"
+
+        >
+
+          ← GO BACK TO OUR WEDDING WEBSITE
+
+        </a>
+
+
+      </div>
+
+    `;
+
+}
+
+
+
+/* =========================================
+   ALREADY SUBMITTED
+========================================= */
+
+function showAlreadySubmitted(data) {
+
+
+  let summary = "";
+
+
+  data.guests.forEach(
+
+    function(guest) {
+
+
+      const status =
+
+        guest.status ||
+        "Submitted";
+
+
+      const className =
+
+        status === "Attending"
+
+          ? "attending"
+
+          : "declining";
+
+
+      summary += `
+
+
+        <div class="summary-row">
+
+
+          <span>
+
+            ${escapeHTML(
+              guest.name
+            )}
+
+          </span>
+
+
+          <strong
+            class="${className}"
+          >
+
+            ${escapeHTML(
+              status
+            )}
+
+          </strong>
+
+
+        </div>
+
+
+      `;
+
+    }
+
+  );
+
+
+  const destinationHTML =
+    buildDestinationSection(
+      data.guests
+    );
+
+
+  document
+    .getElementById("result")
+    .innerHTML = `
+
+
+      <div class="already">
+
+
+        <div class="success-icon">
+
+          ✓
+
+        </div>
+
+
+        <div class="already-title">
+
+          RSVP Already Confirmed
+
+        </div>
+
+
+        <p>
+
+          We've already received
+          your response.
+
+        </p>
+
+
+        <div class="summary">
+
+          ${summary}
+
+        </div>
+
+
+        ${destinationHTML}
+
+
+        <p
+          style="
+            color:#8c8278;
+            font-size:13px;
+            line-height:1.7;
+            margin-top:25px;
+          "
+        >
+
+          If you need to make a change,
+          please contact us.
+
+        </p>
+
+
+        <a
+
+          href="${WEDDING_WEBSITE}"
+
+          target="_blank"
+
+          rel="noopener noreferrer"
+
+          class="website-button"
+
+        >
+
+          ← GO BACK TO OUR WEDDING WEBSITE
+
+        </a>
+
+
+        <button
+
+          class="main-button"
+
+          style="
+            background:transparent;
+            color:#756451;
+            border:1px solid #ded5ca;
+          "
+
+          onclick="startOver()"
+
+        >
+
+          ← BACK
+
+        </button>
+
+
+      </div>
+
+    `;
+
+}
+
+
+
+/* =========================================
    START OVER
 ========================================= */
 
 function startOver() {
+
 
   currentCode = "";
 
@@ -2443,10 +2759,32 @@ function startOver() {
 
 
 /* =========================================
+   ENTER KEY SUPPORT
+========================================= */
+
+document
+  .getElementById("codeInput")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+
+        findInvitation();
+
+      }
+
+    }
+  );
+
+
+
+/* =========================================
    ESCAPE HTML
 ========================================= */
 
 function escapeHTML(value) {
+
 
   return String(value)
 
@@ -2480,7 +2818,9 @@ function escapeHTML(value) {
 
 </script>
 
+
 </body>
 
 </html>
+
 
