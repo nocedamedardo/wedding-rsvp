@@ -719,6 +719,30 @@
     }
 
 
+    /* =========================================
+       SINGLE-GUEST INVITATION
+    ========================================= */
+
+    .invitation.single-guest .guest-name {
+
+      text-align: center;
+
+    }
+
+
+    .invitation.single-guest .choices {
+
+      grid-template-columns: 1fr;
+
+      gap: 10px;
+
+      max-width: 100%;
+
+      margin: 0 auto;
+
+    }
+
+
     .choice {
 
       border:
@@ -1106,6 +1130,38 @@
         #eee7df;
 
       font-size: 13px;
+    }
+
+
+    /* =========================================
+       SINGLE-GUEST CONFIRMED VIEW
+    ========================================= */
+
+    .already.single-guest .summary {
+
+      margin-top: 20px;
+
+      border-top: none;
+    }
+
+
+    .already.single-guest .summary-row {
+
+      justify-content: center;
+
+      gap: 18px;
+
+      padding: 10px 3px;
+
+      border-bottom: none;
+
+    }
+
+
+    .already.single-guest .destinations-section {
+
+      margin-top: 22px;
+
     }
 
 
@@ -1809,7 +1865,7 @@ function showInvitation(data) {
   result.innerHTML = `
 
 
-    <div class="invitation">
+    <div class="invitation ${data.guests.length === 1 ? "single-guest" : ""}">
 
 
       <div class="destination-label">
@@ -1835,17 +1891,35 @@ function showInvitation(data) {
         "
       >
 
-        You may RSVP for yourself, or you may
-        confirm the attendance of everyone listed
-        on your invitation. If you choose to RSVP
-        only for yourself, the other guests listed
-        may still submit their own RSVP separately.
+        ${
+          data.guests.length === 1
 
-        <br><br>
+            ? `
 
-        If you notice anything incorrect in the
-        guest list or have any questions, please
-        don't hesitate to contact us.
+              We’d love to know if you’ll be
+              celebrating with us. If anything in
+              your invitation doesn’t look quite right,
+              or if you have any questions, please
+              feel free to reach out to us.
+
+            `
+
+            : `
+
+              You may RSVP for yourself, or you may
+              confirm the attendance of everyone listed
+              on your invitation. If you choose to RSVP
+              only for yourself, the other guests listed
+              may still submit their own RSVP separately.
+
+              <br><br>
+
+              If you notice anything incorrect in the
+              guest list or have any questions, please
+              don't hesitate to contact us.
+
+            `
+        }
 
       </div>
 
@@ -2233,6 +2307,12 @@ async function submitRSVP() {
     currentInvitation.guests;
 
 
+  const button =
+    document.getElementById(
+      "submitButton"
+    );
+
+
   /*
    * Guests who have already submitted are locked.
    * Guests who are left blank are simply
@@ -2585,7 +2665,7 @@ function showAlreadySubmitted(data) {
     .innerHTML = `
 
 
-      <div class="already">
+      <div class="already ${data.guests.length === 1 ? "single-guest" : ""}">
 
 
         <div class="success-icon">
@@ -2808,4 +2888,3 @@ function escapeHTML(value) {
 </body>
 
 </html>
-
