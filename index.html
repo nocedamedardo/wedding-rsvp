@@ -2233,90 +2233,11 @@ async function submitRSVP() {
     currentInvitation.guests;
 
 
-  let hasNewResponse = false;
-
-
   /*
-   * Only guests who have NOT already
-   * RSVP'd need a response.
-   */
-
-  for (
-
-    let i = 0;
-
-    i < guests.length;
-
-    i++
-
-  ) {
-
-
-    if (guests[i].submitted) {
-
-      continue;
-
-    }
-
-
-    /*
-     * Every new guest being included
-     * in this submission must have
-     * a selected response.
-     */
-
-    if (!responses[i]) {
-
-
-      alert(
-
-        `Please select a response for ${guests[i].name}.`
-
-      );
-
-
-      return;
-
-    }
-
-
-    hasNewResponse = true;
-
-  }
-
-
-  /*
-   * Safety check if everyone has already
-   * submitted.
-   */
-
-  if (!hasNewResponse) {
-
-    alert(
-      "All guests in this invitation have already submitted their RSVP."
-    );
-
-    return;
-
-  }
-
-
-  const button =
-
-    document.getElementById(
-      "submitButton"
-    );
-
-
-  button.disabled = true;
-
-  button.textContent =
-    "CHECKING YOU IN...";
-
-
-  /*
-   * Only send guests who are newly
-   * submitting an RSVP.
+   * Guests who have already submitted are locked.
+   * Guests who are left blank are simply
+   * considered "not yet responded" and may
+   * submit their RSVP later using the same code.
    */
 
   const responseData =
@@ -2329,6 +2250,13 @@ async function submitRSVP() {
 
 
           if (guest.submitted) {
+
+            return null;
+
+          }
+
+
+          if (!responses[index]) {
 
             return null;
 
@@ -2358,6 +2286,22 @@ async function submitRSVP() {
         }
 
       );
+
+
+  /*
+   * At least one guest must be selected
+   * before submitting.
+   */
+
+  if (responseData.length === 0) {
+
+    alert(
+      "Please select at least one guest before submitting."
+    );
+
+    return;
+
+  }
 
 
   try {
@@ -2524,6 +2468,21 @@ function showSuccess() {
         </div>
 
 
+        <button
+
+          class="main-button"
+
+          onclick="submitAnotherRSVP()"
+
+          style="margin-top:20px;"
+
+        >
+
+          SUBMIT ANOTHER RSVP
+
+        </button>
+
+
         <a
 
           href="${WEDDING_WEBSITE}"
@@ -2676,6 +2635,21 @@ function showAlreadySubmitted(data) {
         </p>
 
 
+        <button
+
+          class="main-button"
+
+          onclick="submitAnotherRSVP()"
+
+          style="margin-top:20px;"
+
+        >
+
+          SUBMIT ANOTHER RSVP
+
+        </button>
+
+
         <a
 
           href="${WEDDING_WEBSITE}"
@@ -2718,6 +2692,18 @@ function showAlreadySubmitted(data) {
 
 }
 
+
+
+/* =========================================
+   SUBMIT ANOTHER RSVP
+========================================= */
+
+function submitAnotherRSVP() {
+
+  window.location.href =
+    "https://nocedamedardo.github.io/wedding-rsvp/";
+
+}
 
 
 /* =========================================
@@ -2822,5 +2808,4 @@ function escapeHTML(value) {
 </body>
 
 </html>
-
 
